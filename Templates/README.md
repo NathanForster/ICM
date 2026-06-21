@@ -46,6 +46,25 @@ Recommended for:
 
 ---
 
+# Recommended Folder Structure
+
+This repository is a templates library. Generated project instances should live separately, outside this repository.
+
+```
+(parent directory)
+├── ICM/                          ← this repo, templates only
+│   └── Templates/
+│       ├── README.md
+│       ├── AI_PROJECT_CREATION_INSTRUCTIONS.md
+│       ├── generic-agent-oriented-ICM/
+│       └── systems-engineering-ICM/
+│
+├── my-first-project/             ← generated project instances live here
+└── my-second-project/
+```
+
+---
+
 # Recommended Workflow
 
 ## Step 1 — Select a Template
