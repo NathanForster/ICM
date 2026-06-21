@@ -73,13 +73,13 @@ A `.ai/` parent directory is recommended for all of these folders. The name sign
 
 # Recommended Workflow
 
-## Step 1 — Select a Template
+## Step 1 — Think about which Template to use
 
 Choose the template that most closely matches the intended project domain.
 
 ---
 
-## Step 2 — Provide the Template to an AI
+## Step 2 — Direct the AI to setup your new project.
 
 Point an AI agent at [AI_PROJECT_CREATION_INSTRUCTIONS.md](AI_PROJECT_CREATION_INSTRUCTIONS.md).
 
