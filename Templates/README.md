@@ -194,10 +194,14 @@ Treat ICM repositories as:
 
 Version control is strongly recommended.
 
+When creating a remote repository, create it completely empty — no README, no .gitignore. This avoids merge conflicts on the first push.
+
 Example:
 
 ```bash
 git init
 git add .
 git commit -m "Initial ICM project instance"
+git remote add origin https://github.com/your-org/your-project.git
+git push -u origin master
 ```
