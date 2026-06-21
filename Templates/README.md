@@ -56,21 +56,7 @@ Choose the template that most closely matches the intended project domain.
 
 ## Step 2 — Provide the Template to an AI
 
-Point an AI agent at the selected template.
-
-For a complete, ready-to-use set of AI instructions, see [AI_PROJECT_CREATION_INSTRUCTIONS.md](AI_PROJECT_CREATION_INSTRUCTIONS.md).
-
-Instruct the AI to:
-
-1. Read:
-   - `ICM.md`
-   - `CONTEXT.md`
-   - local workspace `CONTEXT.md`
-   - local `AGENT.md`
-2. Ask the user questions about the intended project.
-3. Create a customized ICM project instance.
-4. Generate the resulting folder structure and files.
-5. Package the result into a downloadable ZIP archive.
+Point an AI agent at [AI_PROJECT_CREATION_INSTRUCTIONS.md](AI_PROJECT_CREATION_INSTRUCTIONS.md).
 
 ---
 
