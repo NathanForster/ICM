@@ -50,14 +50,20 @@ Recommended for:
 
 This repository is a templates library. Generated project instances should live separately, outside this repository.
 
+A `.ai/` parent directory is recommended for all of these folders. The name signals to both the user and the AI that this is where AI-assisted work lives, and makes it practical to limit AI access scope to just this directory tree.
+
 ```
-(parent directory)
+.ai/                              ← recommended parent; scope AI access here
 ├── ICM/                          ← this repo, templates only
 │   └── Templates/
 │       ├── README.md
 │       ├── AI_PROJECT_CREATION_INSTRUCTIONS.md
 │       ├── generic-agent-oriented-ICM/
 │       └── systems-engineering-ICM/
+│
+├── skills/                       ← shared prompts and instructions
+├── memory/                       ← shared context across projects
+├── tools/                        ← shared scripts and utilities
 │
 ├── my-first-project/             ← generated project instances live here
 └── my-second-project/
