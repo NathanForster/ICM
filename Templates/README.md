@@ -58,6 +58,8 @@ Choose the template that most closely matches the intended project domain.
 
 Point an AI agent at the selected template.
 
+For a complete, ready-to-use set of AI instructions, see [AI_PROJECT_CREATION_INSTRUCTIONS.md](AI_PROJECT_CREATION_INSTRUCTIONS.md).
+
 Instruct the AI to:
 
 1. Read:
