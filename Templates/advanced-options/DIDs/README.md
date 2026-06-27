@@ -13,6 +13,8 @@ Each DID specifies the required format and content for a contractually deliverab
 | DI-IPSC-81427B | Software Development Plan (SDP) | [SDP-DI-IPSC-81427B.md](SDP-DI-IPSC-81427B.md) |
 | DI-SESS-80858D | Supplier's Configuration Management Plan (CMP) | [CMP-DI-SESS-80858D.md](CMP-DI-SESS-80858D.md) |
 | DI-IPSC-81438A | Software Test Plan (STP) | [STP-DI-IPSC-81438A.md](STP-DI-IPSC-81438A.md) |
+| DI-IPSC-81440A | Software Test Report (STR) | [STR-DI-IPSC-81440A.md](STR-DI-IPSC-81440A.md) |
+| DI-MGMT-82133A | Requirements Traceability Verification Matrix (RTVM) | [RTVM-DI-MGMT-82133A.md](RTVM-DI-MGMT-82133A.md) |
 
 ---
 
@@ -43,7 +45,6 @@ When in doubt, refer back to the `.pdf` for authoritative wording.
 
 Additional DIDs to be added as PDFs are provided:
 
-- Software Test Report (STR)
 - Software Requirements Specification (SRS)
 - Software Design Document (SDD)
 - Others as applicable
