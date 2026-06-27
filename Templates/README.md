@@ -71,6 +71,20 @@ A `.ai/` parent directory is recommended for all of these folders. The name sign
 
 ---
 
+## advanced-options/DIDs/
+
+A library of US DoD Data Item Description (DID) PDFs and AI-readable `.md` digests for programs operating under DoD software/systems engineering standards (MIL-STD-498 family, EIA-649, DoD RMF).
+
+Relevant for:
+- DoD software acquisition contracts (CDRL-driven deliverables)
+- Systems engineering projects with formal qualification testing
+- Programs requiring configuration management per EIA-649
+- Cybersecurity testing under the DoD Risk Management Framework (RMF)
+
+See [`advanced-options/DIDs/GUIDE.md`](advanced-options/DIDs/GUIDE.md) for DID selection guidance, document dependency map, and cross-reference matrix.
+
+---
+
 # Recommended Workflow
 
 ## Step 1 — Think about which Template to use

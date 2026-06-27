@@ -4,6 +4,8 @@ This folder contains US DoD Data Item Descriptions (DIDs) relevant to software a
 
 Each DID specifies the required format and content for a contractually deliverable document. They are published by the Defense Standardization Program. The PDFs in this folder were obtained from the DoD Quick Search tool: [quicksearch.dla.mil](https://quicksearch.dla.mil/qsSearch.aspx)
 
+For DID selection guidance, a document dependency map, and a cross-reference matrix, see **[GUIDE.md](GUIDE.md)**.
+
 ---
 
 ## Contents
