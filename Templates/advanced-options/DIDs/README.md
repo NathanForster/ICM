@@ -10,6 +10,7 @@ Each DID specifies the required format and content for a contractually deliverab
 
 | DID Number | Title | Companion .md |
 |------------|-------|---------------|
+| DI-SESS-82007B | Configuration Item (CI) Documentation Recommendation | [CI-DI-SESS-82007B.md](CI-DI-SESS-82007B.md) |
 | DI-IPSC-81427B | Software Development Plan (SDP) | [SDP-DI-IPSC-81427B.md](SDP-DI-IPSC-81427B.md) |
 | DI-SESS-80858D | Supplier's Configuration Management Plan (CMP) | [CMP-DI-SESS-80858D.md](CMP-DI-SESS-80858D.md) |
 | DI-IPSC-81438A | Software Test Plan (STP) | [STP-DI-IPSC-81438A.md](STP-DI-IPSC-81438A.md) |
