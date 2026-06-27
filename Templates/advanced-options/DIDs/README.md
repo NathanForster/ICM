@@ -11,6 +11,8 @@ Each DID specifies the required format and content for a contractually deliverab
 | DID Number | Title | Companion .md |
 |------------|-------|---------------|
 | DI-IPSC-81427B | Software Development Plan (SDP) | [SDP-DI-IPSC-81427B.md](SDP-DI-IPSC-81427B.md) |
+| DI-SESS-80858D | Supplier's Configuration Management Plan (CMP) | [CMP-DI-SESS-80858D.md](CMP-DI-SESS-80858D.md) |
+| DI-IPSC-81438A | Software Test Plan (STP) | [STP-DI-IPSC-81438A.md](STP-DI-IPSC-81438A.md) |
 
 ---
 
@@ -41,8 +43,6 @@ When in doubt, refer back to the `.pdf` for authoritative wording.
 
 Additional DIDs to be added as PDFs are provided:
 
-- Configuration Management Plan (CMP)
-- Software Test Plan (STP)
 - Software Test Report (STR)
 - Software Requirements Specification (SRS)
 - Software Design Document (SDD)
