@@ -19,6 +19,7 @@ Each DID specifies the required format and content for a contractually deliverab
 | DI-SCRE-82140A | Cybersecurity Test Plan (CTP) | [CTP-DI-SCRE-82140A.md](CTP-DI-SCRE-82140A.md) |
 | DI-MGMT-82141A | Naval Aviation Cybersecurity Test Procedures/Descriptions (CSTP/CSTD) | [CTPr-DI-MGMT-82141A.md](CTPr-DI-MGMT-82141A.md) |
 | DI-MGMT-82142A | Naval Aviation Cybersecurity Test Report (CSTR) | [CTR-DI-MGMT-82142A.md](CTR-DI-MGMT-82142A.md) |
+| DI-IPSC-81439A + DI-NDTI-80603A | **Software Test Procedure (STPr)** — combined digest of STD and Test Procedure DIDs | [STPr-Combined.md](STPr-Combined.md) |
 
 ---
 
