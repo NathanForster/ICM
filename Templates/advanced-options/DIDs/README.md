@@ -16,6 +16,9 @@ Each DID specifies the required format and content for a contractually deliverab
 | DI-IPSC-81440A | Software Test Report (STR) | [STR-DI-IPSC-81440A.md](STR-DI-IPSC-81440A.md) |
 | DI-MGMT-82133A | Requirements Traceability Verification Matrix (RTVM) | [RTVM-DI-MGMT-82133A.md](RTVM-DI-MGMT-82133A.md) |
 | DI-IPSC-81433A | Software Requirements Specification (SRS) | [SRS-DI-IPSC-81433A.md](SRS-DI-IPSC-81433A.md) |
+| DI-SCRE-82140A | Cybersecurity Test Plan (CTP) | [CTP-DI-SCRE-82140A.md](CTP-DI-SCRE-82140A.md) |
+| DI-MGMT-82141A | Naval Aviation Cybersecurity Test Procedures/Descriptions (CSTP/CSTD) | [CTPr-DI-MGMT-82141A.md](CTPr-DI-MGMT-82141A.md) |
+| DI-MGMT-82142A | Naval Aviation Cybersecurity Test Report (CSTR) | [CTR-DI-MGMT-82142A.md](CTR-DI-MGMT-82142A.md) |
 
 ---
 
@@ -46,5 +49,5 @@ When in doubt, refer back to the `.pdf` for authoritative wording.
 
 Additional DIDs to be added as PDFs are provided:
 
-- Software Design Document (SDD)
+- Software Design Document (SDD, DI-IPSC-81435A)
 - Others as applicable
