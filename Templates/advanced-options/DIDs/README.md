@@ -21,6 +21,11 @@ Each DID specifies the required format and content for a contractually deliverab
 | DI-MGMT-82141A | Naval Aviation Cybersecurity Test Procedures/Descriptions (CSTP/CSTD) | [CTPr-DI-MGMT-82141A.md](CTPr-DI-MGMT-82141A.md) |
 | DI-MGMT-82142A | Naval Aviation Cybersecurity Test Report (CSTR) | [CTR-DI-MGMT-82142A.md](CTR-DI-MGMT-82142A.md) |
 | DI-IPSC-81439A + DI-NDTI-80603A | **Software Test Procedure (STPr)** — combined digest of STD and Test Procedure DIDs | [STPr-Combined.md](STPr-Combined.md) |
+| DI-IPSC-81431A | System/Subsystem Specification (SSS) | [SSS-DI-IPSC-81431A.md](SSS-DI-IPSC-81431A.md) |
+| DI-IPSC-81435B | Software Design Description (SDD) | [SDD-DI-IPSC-81435B.md](SDD-DI-IPSC-81435B.md) |
+| DI-IPSC-81434A | Interface Requirements Specification (IRS) | [IRS-DI-IPSC-81434A.md](IRS-DI-IPSC-81434A.md) |
+| DI-IPSC-81441A | Software Product Specification (SPS) | [SPS-DI-IPSC-81441A.md](SPS-DI-IPSC-81441A.md) |
+| DI-IPSC-81442A | Software Version Description (SVD) | [SVD-DI-IPSC-81442A.md](SVD-DI-IPSC-81442A.md) |
 
 ---
 
@@ -51,5 +56,4 @@ When in doubt, refer back to the `.pdf` for authoritative wording.
 
 Additional DIDs to be added as PDFs are provided:
 
-- Software Design Document (SDD, DI-IPSC-81435A)
 - Others as applicable
