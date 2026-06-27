@@ -2,7 +2,7 @@
 
 This folder contains US DoD Data Item Descriptions (DIDs) relevant to software and systems engineering projects operating under ICM.
 
-Each DID specifies the required format and content for a contractually deliverable document. They are published by the Defense Standardization Program and downloaded from [assist.dla.mil](https://assist.dla.mil).
+Each DID specifies the required format and content for a contractually deliverable document. They are published by the Defense Standardization Program. The PDFs in this folder were obtained from the DoD Quick Search tool: [quicksearch.dla.mil](https://quicksearch.dla.mil/qsSearch.aspx)
 
 ---
 
