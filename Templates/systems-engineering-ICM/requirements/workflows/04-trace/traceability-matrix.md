@@ -43,3 +43,13 @@ documentation exists without a corresponding implementation.
   Impl Artifact, and Val Artifact columns.
 - A row where Status is `Baselined` may have all trace columns as `—`.
 - `Superseded` rows: keep the row, set all trace columns to `—` (no new implementation needed).
+
+---
+
+## Formal Counterpart
+
+For projects with contractual traceability requirements, the DoD counterpart of this
+matrix is the **RTVM** (Requirements Traceability Verification Matrix, DI-MGMT-82133A).
+A digest is available in the ICM templates repository at
+`Templates/advanced-options/DIDs/RTVM-DI-MGMT-82133A.md`. If the contract requires an
+RTVM, generate it as `docs/RTVM.md` per that digest rather than extending this matrix.

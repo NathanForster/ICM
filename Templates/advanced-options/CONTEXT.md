@@ -89,6 +89,9 @@ This pipeline enforces a **strict gate pattern** between stages.
 
 ## 5. WORKSPACE ROUTING
 
+> Example rows — replace with the actual workspaces of this project instance.
+> Every row must correspond to a real folder, and every workspace folder must have a row.
+
 | Workspace | Route When |
 |-----------|-----------|
 | `source-development/` | Writing, modifying, or reviewing source code |
@@ -101,11 +104,6 @@ This pipeline enforces a **strict gate pattern** between stages.
 
 ## 6. VERSION CONTROL
 
-Files that MUST be gitignored:
-- Any file containing credentials (`.env`, `*.key`, `*.pem`, `secrets.*`)
-- Runtime-modified configuration files (`settings.json`, user data files)
-- Build output directories (`dist/`, `build/`, `__pycache__/`)
-- Virtual environments (`.venv/`, `node_modules/`)
-- IDE and local settings (`*.local.json`, `.DS_Store`, `*.user`)
-
-The only committed credential file should be the example template (`.env.example`).
+See the **Version Control** section of the base template's top-level `CONTEXT.md` for
+the canonical list of files that must be gitignored. Never commit credentials; the only
+committed credential file should be the example template (`.env.example`).

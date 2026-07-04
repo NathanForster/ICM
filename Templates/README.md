@@ -101,7 +101,11 @@ Point an AI agent at [AI_PROJECT_CREATION_INSTRUCTIONS.md](AI_PROJECT_CREATION_I
 
 # Recommended AI Workflow
 
-The AI should gather information such as:
+The AI should interview the user **one question at a time**, presenting concrete
+options where appropriate rather than open-ended prompts, and skipping categories
+that earlier answers make irrelevant.
+
+It should gather information such as:
 
 ## General Information
 - project name
@@ -148,9 +152,10 @@ The AI should generate:
 - README files
 - placeholder project artifacts
 
-The AI should then create:
+Delivery depends on the environment:
 
-- downloadable ZIP archive
+- **Local agent with filesystem access** (e.g. Claude Code) — create the project directly as a sibling folder under `.ai/`
+- **Chat environment without filesystem access** — create a downloadable ZIP archive
 
 ---
 

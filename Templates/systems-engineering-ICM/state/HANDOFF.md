@@ -63,7 +63,7 @@ All commands assume `CWD = [project root]` unless noted.
 [run command]
 
 # Full data/content pipeline
-bash run_pipeline.sh
+bash run_data_pipeline.sh
 
 # Source-development pipeline (single REQ)
 bash run_source_dev.sh <REQ-ID>

@@ -52,6 +52,12 @@ The `.md` digest is not a substitute for the authoritative PDF. It is structured
 
 When in doubt, refer back to the `.pdf` for authoritative wording.
 
+**Do not copy DID files into project instances.** The digests and PDFs stay in this
+templates repository and are loaded from here. In the project instance, generate the
+deliverable documents themselves in a `docs/` folder (e.g. `docs/SRS.md`, `docs/RTVM.md`),
+each structured per its governing DID. Record the DID → `docs/` mapping in the project's
+top-level `CONTEXT.md`.
+
 ---
 
 ## Planned Additions

@@ -17,7 +17,7 @@ When generating text content, summaries, outlines, or reports, you must enforce 
 
 ## 3. CODE STYLE & TECHNICAL STANDARDS
 When writing code scripts or modifying backend architecture within this workspace, enforce these strict practices:
-*   **Language & Stack Constraints:** Python must utilize version 3.10+; JavaScript/TypeScript must adhere to ECMAScript 2022 standards. Rely on native libraries or lightweight, verified packages (`fs-extra`, `openai`).
+*   **Language & Stack Constraints:** Python must utilize version 3.10+; JavaScript/TypeScript must adhere to ECMAScript 2022 standards. Rely on native libraries or lightweight, verified packages (e.g. `requests`, `pydantic` for Python; `fs-extra` for JS).
 *   **File I/O Resilience:** Always wrap file operations in explicit exception blocks (`try/except` in Python, `try/catch` in JS). If a target file is missing, fail fast with a non-zero exit code.
 *   **No Placeholders:** Write fully functional code. Do not use generic comment blocks like `# TODO: implement this` or `// insert logic here`.
 

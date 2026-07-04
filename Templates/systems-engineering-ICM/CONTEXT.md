@@ -1,32 +1,44 @@
 # Global Systems Engineering Context
 
-## source-development/
-Use for:
-- software development
-- automation systems
-- DAQ systems
-- instrumentation integration
-- validation
+This file is the **single source of truth for workspace routing**. If a task does not
+match a row in this table, escalate to the human operator rather than guessing.
 
-## documentation/
-Use for:
-- user manuals
-- development plans
-- validation documentation
-- release notes
+---
 
-## sales/
-Use for:
-- customer proposals
-- technical collateral
-- presentations
-- capability summaries
+## Workspace Routing Table
 
-Always load local CONTEXT.md files before execution.
+### Active workspaces (full context set: ICM.md, CONTEXT.md, AGENT.md, README.md)
+
+| Workspace | Route When |
+|-----------|-----------|
+| `source-development/` | Writing, modifying, or reviewing source code; automation systems; DAQ systems; instrumentation integration |
+| `documentation/` | Creating or updating any technical document — user manuals, development plans, validation documentation, release notes |
+| `requirements/` | Capturing, triaging, baselining, or tracing requirements |
+| `sales/` | Creating customer-facing materials — proposals, technical collateral, presentations, capability summaries |
+
+### Registry workspaces (README.md only — records, not agent-operated workflows)
+
+| Workspace | Route When |
+|-----------|-----------|
+| `compliance/` | Recording regulatory or contractual compliance evidence |
+| `configuration-management/` | Recording configuration items, baselines, and change control |
+| `decisions/` | Recording engineering or architectural decisions |
+| `governance/` | Recording approval flows, ownership boundaries, and policies |
+| `metrics/` | Defining, collecting, or reporting on KPIs |
+| `risk-management/` | Identifying, assessing, or mitigating project risks |
+| `standards/` | Recording coding, documentation, or process standards |
+| `state/` | Session handoff and persistent operational state |
+| `templates/` | Reusable document and artifact templates |
+| `verification-validation/` | Recording validation workflows and evidence |
+
+Always load local CONTEXT.md files (where present) before execution.
 
 ---
 
 ## Version Control — Files That Must Be Gitignored
+
+This is the canonical gitignore guidance for the project; other context files reference
+this section rather than repeating it.
 
 | Category | Examples |
 |----------|---------|

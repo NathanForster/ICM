@@ -180,6 +180,10 @@ Above set, plus: CTP → CSTP/CSTD → CSTR (with RTVM capturing cybersecurity v
 
 When an ICM project is configured for DoD contract deliverables, an AI agent should:
 
+0. **Keep the DID files here; put deliverables in `docs/`** — never copy digest `.md`
+   or PDF files into the project instance. Generate the deliverable documents in the
+   project's `docs/` folder (e.g. `docs/SRS.md`), structured per the governing DID,
+   and record the DID → `docs/` mapping in the project's top-level `CONTEXT.md`.
 1. **Read the CI Documentation Recommendation digest first** — it establishes which CIs exist and which documentation types apply. This scopes which other DID digests need to be loaded.
 2. **Load only the digests relevant to the current task** — loading all 16 digests at once is wasteful. For a design review task, load SDD; for a test report task, load STR and RTVM; for a delivery task, load SPS and SVD.
 3. **Follow the dependency order** when generating a suite of documents — do not start SDD before SRS is complete; do not start STR before STPr is complete.

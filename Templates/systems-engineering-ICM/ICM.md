@@ -32,20 +32,11 @@ It is intended for:
 
 ---
 
-## Workspace Routing Table
+## Workspace Routing
 
-| Workspace | Route When |
-|-----------|-----------|
-| `source-development/` | Writing, modifying, or reviewing source code |
-| `data-pipeline/` | Ingesting, transforming, validating, or loading data |
-| `testing-validation/` | Writing or running unit, integration, or system tests |
-| `documentation/` | Creating or updating any technical document |
-| `requirements/` | Capturing, triaging, or tracing requirements |
-| `risk-management/` | Identifying, assessing, or mitigating project risks |
-| `metrics/` | Defining, collecting, or reporting on KPIs |
-| `devops-release/` | Building, packaging, deploying, or monitoring releases |
-| `sales/` | Creating customer-facing materials or proposals |
-| `inbox/` | Any unrouted or unclassified incoming task |
+The **top-level `CONTEXT.md` is the single source of truth for workspace routing.**
+Consult its Workspace Routing Table before starting any task. Do not route from
+memory or from this file.
 
 ---
 
@@ -56,16 +47,12 @@ Escalate to human operator when:
 - Approvals are missing for a release or deployment
 - A dependency is unresolved and blocking progress
 - System behaviour is ambiguous or undocumented
+- A task does not match any row in the routing table
 
 ---
 
 ## Version Control
 
-Files that MUST be gitignored:
-- Any file containing credentials (`.env`, `*.key`, `*.pem`, `secrets.*`)
-- Runtime-modified configuration files (`settings.json`, user data files)
-- Build output directories (`dist/`, `build/`, `__pycache__/`)
-- Virtual environments (`.venv/`, `node_modules/`)
-- IDE and local settings (`*.local.json`, `.DS_Store`)
-
-The only committed credential file should be the example template (`.env.example`).
+See the **Version Control** section of the top-level `CONTEXT.md` for the canonical
+list of files that must be gitignored. Never commit credentials; the only committed
+credential file should be the example template (`.env.example`).
