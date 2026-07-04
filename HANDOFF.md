@@ -35,7 +35,8 @@ this one under `.ai/`. See [README.md](README.md).
 
 ## Open items
 
-- The `.ai/` recommended folder structure (with `skills/`, `memory/`, `tools/`) exists in
-  `Templates/README.md` but is **not yet reflected in the PPTX/PDF** walkthrough deck.
+- The PPTX template's red separator lines collide with text on some slides when rendered
+  through LibreOffice (visible in the generated PDF, e.g. the Recommended Folder Structure
+  slide). Pre-existing template defect — worth a layout pass on the deck decorations.
 - Optional DID additions if projects need them: IDD (DI-IPSC-81436), DBDD (DI-IPSC-81437).
 - Methodology pilot in progress; templates not yet validated at organizational scale.
