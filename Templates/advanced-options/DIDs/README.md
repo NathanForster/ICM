@@ -28,6 +28,8 @@ For DID selection guidance, a document dependency map, and a cross-reference mat
 | DI-IPSC-81434A | Interface Requirements Specification (IRS) | [IRS-DI-IPSC-81434A.md](IRS-DI-IPSC-81434A.md) |
 | DI-IPSC-81441A | Software Product Specification (SPS) | [SPS-DI-IPSC-81441A.md](SPS-DI-IPSC-81441A.md) |
 | DI-IPSC-81442A | Software Version Description (SVD) | [SVD-DI-IPSC-81442A.md](SVD-DI-IPSC-81442A.md) |
+| DI-IPSC-81436A | Interface Design Description (IDD) | [IDD-DI-IPSC-81436A.md](IDD-DI-IPSC-81436A.md) |
+| DI-IPSC-81437A | Database Design Description (DBDD) | [DBDD-DI-IPSC-81437A.md](DBDD-DI-IPSC-81437A.md) |
 
 ---
 

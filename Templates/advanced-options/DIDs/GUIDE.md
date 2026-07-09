@@ -91,6 +91,8 @@ Each row is a document; each column is a document that feeds into it or that it 
 | **IRS** (DI-IPSC-81434A) | SDD §4.3 / IDD (interface design), STP (interface test cases), RTVM | SSS §3.3 (or standalone), SRS §3.3 |
 | **SDP** (DI-IPSC-81427B) | Governs development process; SDD (CM of design artifacts) | SRS, SSS, contract/SOW |
 | **SDD** (DI-IPSC-81435B) | SPS §5.1 (as-built design), RTVM (design reference), implementation | SRS (requirements allocated to CSCI), IRS |
+| **IDD** (DI-IPSC-81436A) | SPS §5.1 (as-built interface design), implementation | IRS (interface requirements), SDD §4.3 (delegated interface design) |
+| **DBDD** (DI-IPSC-81437A) | SPS §5.1 (as-built database design), implementation | SDD §3.c (delegated database design decisions), IDD (interface refs) |
 | **STP** (DI-IPSC-81438A) | STPr (procedure detail), STR (results), RTVM (verification methods) | SRS, IRS, SSS, SDD |
 | **CTP** (DI-SCRE-82140A) | CSTP/CSTD (procedure detail), CSTR (results), RTVM | SRS (security requirements), SDD |
 | **STPr** (DI-IPSC-81439A + DI-NDTI-80603A) | STR (references step numbers) | STP (test cases), SRS/IRS/SSS (traceability) |
@@ -129,7 +131,9 @@ Each row is a document; each column is a document that feeds into it or that it 
 
 | Document | When to Use |
 |----------|-------------|
-| **SDD** (DI-IPSC-81435B) | Required for each CSCI — captures the architectural and detailed design. May be supplemented by IDDs (DI-IPSC-81436) for interface design and DBDDs (DI-IPSC-81437) for database design if those are complex enough to warrant standalone documents. |
+| **SDD** (DI-IPSC-81435B) | Required for each CSCI — captures the architectural and detailed design. May be supplemented by the IDD and DBDD below when interface or database design is complex enough to warrant standalone documents. |
+| **IDD** (DI-IPSC-81436A) | Use when interface design warrants a standalone document — the design counterpart to the IRS (IRS states interface *requirements*; the IDD states the design *characteristics selected to meet them*). |
+| **DBDD** (DI-IPSC-81437A) | Use when the CSCI includes a database whose design (design levels, DBMS decisions, access software) warrants a standalone document instead of living inside the SDD. |
 
 ---
 

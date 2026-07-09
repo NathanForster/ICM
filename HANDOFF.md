@@ -22,11 +22,11 @@ this one under `.ai/`. See [README.md](README.md).
 - **Two base templates:** `generic-agent-oriented-ICM/` and `systems-engineering-ICM/`,
   plus the `advanced-options/` overlay (stage-gated pipeline runner, CLAUDE.md context
   proxy, stricter global constraints).
-- **DIDs library complete for the core MIL-STD-498 set:** 16 DID pairs (PDF + digest)
+- **DIDs library complete for the MIL-STD-498 set:** 18 DID pairs (PDF + digest)
   covering planning (SDP, CMP, CI Documentation Recommendation), requirements (SSS, SRS,
-  IRS), design (SDD), test (STP, STPr, STR, RTVM), cybersecurity (CTP, CSTP/CSTD, CSTR),
-  and delivery (SPS, SVD) — with `DIDs/GUIDE.md` providing selection guidance and a
-  dependency map.
+  IRS), design (SDD, IDD, DBDD), test (STP, STPr, STR, RTVM), cybersecurity (CTP,
+  CSTP/CSTD, CSTR), and delivery (SPS, SVD) — with `DIDs/GUIDE.md` providing selection
+  guidance and a dependency map.
 - **Project-creation flow:** `Templates/AI_PROJECT_CREATION_INSTRUCTIONS.md` — interview
   is one-question-at-a-time with options; DID-based deliverables are generated into the
   instance's `docs/` folder (digests are never copied out of this repo).
@@ -35,6 +35,6 @@ this one under `.ai/`. See [README.md](README.md).
 
 ## Open items
 
-- Optional DID additions if projects need them: IDD (DI-IPSC-81436), DBDD (DI-IPSC-81437)
-  — requires the PDFs to be downloaded from quicksearch.dla.mil and provided.
+- None currently. Additional DIDs can be added as project needs arise (download the
+  PDF from quicksearch.dla.mil and follow the pair convention in `DIDs/README.md`).
 - Methodology pilot in progress; templates not yet validated at organizational scale.

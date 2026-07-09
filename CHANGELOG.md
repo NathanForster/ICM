@@ -6,6 +6,8 @@ record the template version they were created from (see
 
 ## 2026-07
 
+- **DIDs library completed** — IDD (DI-IPSC-81436A) and DBDD (DI-IPSC-81437A) added,
+  closing the SDD's delegated-design references; 18 DID pairs total
 - **Worked example added** (`Examples/temp-logger/`) — one requirement through the
   full lifecycle with briefs, register, matrix, ADR, source, passing tests, and handoff
 - **Stage scaffolds shipped** — `source-development/workflows/03-implementation/` and
