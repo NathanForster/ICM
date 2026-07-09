@@ -63,6 +63,8 @@ project instances are meant to live in their *own* repositories, not here.
       AI-readable digest pairs) for generating contractually compliant deliverables — SRS,
       SDD, STP, RTVM, cybersecurity test documents, and more — with a selection guide and
       document dependency map (`DIDs/GUIDE.md`).
+- **`Examples/`** — worked project instances showing what a generated ICM repository looks
+  like after real work has flowed through it (requirements, briefs, code, evidence, handoff).
 - **`Interpretable_Context_Methodology_(ICM).pdf` / `.pptx`** — a full walkthrough of the
   methodology, its design principles, file anatomy, and execution flow.
 

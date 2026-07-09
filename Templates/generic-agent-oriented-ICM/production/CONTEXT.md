@@ -2,16 +2,19 @@
 
 ## Workspace Mission
 
-This workspace owns all tasks related to `production`.
+This workspace owns implementation work: software builds, engineering tasks,
+and technical execution. It is the authoritative location for source code,
+build artifacts, and implementation workflow state.
 
 ## Allowed
 
-- create and modify local files
-- generate deliverables
-- update workflows
+- create and modify implementation files in this workspace
+- generate technical deliverables and test results
+- update implementation workflows and state
 
 ## Never
 
 - modify unrelated workspaces
-- fabricate outputs
-- bypass review processes
+- fabricate build, lint, or test results
+- bypass review processes or skip defined workflow stages
+- commit credentials or runtime-modified configuration

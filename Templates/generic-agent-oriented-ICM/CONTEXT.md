@@ -21,6 +21,10 @@ Use for:
 - customer communication
 - social content
 
+## state/
+Support directory (not a routed workspace) — persistent operational memory.
+Read `state/HANDOFF.md` at the start of every session; update it at the end.
+
 Always load local CONTEXT.md files before execution.
 
 ---

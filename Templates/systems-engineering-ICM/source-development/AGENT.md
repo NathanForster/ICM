@@ -22,18 +22,18 @@ Every requirement is Done when ALL of the following are true:
 
 - [ ] Implementation brief written (`input_<REQ-ID>_implementation.md`)
       — includes: design summary, files modified, key functions/classes, constraints
-- [ ] Stage 03 run — `output_03-implementation.md` produced
+- [ ] Stage 03 run — `output_03-implementation.md` produced *(advanced overlay only)*
 - [ ] Code written in `src/` with no linting errors
 - [ ] Validation brief written (`input_<REQ-ID>_validation.md`)
       — includes: lint result, logic review, edge cases, test results, PASS/FAIL verdict
-- [ ] Stage 04 run — `output_04-validation.md` produced
+- [ ] Stage 04 run — `output_04-validation.md` produced *(advanced overlay only)*
 - [ ] Requirements register Status updated: `Baselined` → `Implemented`
 - [ ] Traceability matrix Trace column updated with source file(s)
 - [ ] Source code + ICM artifacts + register committed in a single git commit
 
 A requirement must not be marked `Verified` until a test in `src/tests/` or
-`testing-validation/` explicitly covers it, or the human operator confirms
-manual verification.
+evidence in `verification-validation/` explicitly covers it, or the human
+operator confirms manual verification.
 
 ---
 

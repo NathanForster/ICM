@@ -97,6 +97,9 @@ Choose the template that most closely matches the intended project domain.
 
 Point an AI agent at [AI_PROJECT_CREATION_INSTRUCTIONS.md](AI_PROJECT_CREATION_INSTRUCTIONS.md).
 
+For a picture of what a finished instance looks like in use, see the worked
+examples in [`../Examples/`](../Examples/README.md).
+
 ---
 
 # Recommended AI Workflow

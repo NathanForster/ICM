@@ -31,8 +31,10 @@ if [ -z "$REQ_ID" ]; then
     exit 1
 fi
 
-# Normalise to lowercase+underscore for file matching (REQ-42 → req_42)
-REQ_LOWER=$(echo "$REQ_ID" | tr '[:upper:]' '[:lower:]' | tr '-' '_')
+# Normalised forms for file matching (canonical REQ-42, plus legacy variants)
+REQ_HYPH=$(echo "$REQ_ID" | tr '[:upper:]' '[:lower:]')   # req-42
+REQ_UNDER=$(echo "$REQ_HYPH" | tr '-' '_')                # req_42
+REQ_NOSEP=$(echo "$REQ_HYPH" | tr -d '-')                 # req42
 
 WORKSPACE_ROOT="."
 RUNNER_SCRIPT="./.icm-runner.py"
@@ -81,9 +83,17 @@ echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━�
 echo ""
 echo -e "${GREEN}[1/5] Checking for implementation brief...${NC}"
 
-IMPL_INPUT=$(find "$IMPL_DIR" -maxdepth 1 \
-    \( -name "*${REQ_LOWER}*implementation*" -o -name "*${REQ_ID}*implementation*" \) \
-    2>/dev/null | head -1)
+find_brief() {
+    # find_brief <dir> <kind> — match canonical and legacy artifact name forms,
+    # case-insensitively: REQ-42 / req-42 / req_42 / req42
+    find "$1" -maxdepth 1 \
+        \( -iname "*${REQ_HYPH}*$2*" \
+        -o -iname "*${REQ_UNDER}*$2*" \
+        -o -iname "*${REQ_NOSEP}*$2*" \) \
+        2>/dev/null | head -1
+}
+
+IMPL_INPUT=$(find_brief "$IMPL_DIR" "implementation")
 
 if [ -z "$IMPL_INPUT" ]; then
     echo -e "${YELLOW}  No implementation brief found for ${REQ_ID}.${NC}"
@@ -98,9 +108,7 @@ if [ -z "$IMPL_INPUT" ]; then
     echo "    - Constraints or edge cases"
     pause "Create the brief, then press [Enter]."
 
-    IMPL_INPUT=$(find "$IMPL_DIR" -maxdepth 1 \
-        \( -name "*${REQ_LOWER}*implementation*" -o -name "*${REQ_ID}*implementation*" \) \
-        2>/dev/null | head -1)
+    IMPL_INPUT=$(find_brief "$IMPL_DIR" "implementation")
     [ -z "$IMPL_INPUT" ] && fail "Still no implementation brief found. Aborting."
 fi
 
@@ -129,9 +137,7 @@ pause "Code is ready. Press [Enter] to proceed to validation."
 echo ""
 echo -e "${GREEN}[4/5] Checking for validation brief...${NC}"
 
-VAL_INPUT=$(find "$VAL_DIR" -maxdepth 1 \
-    \( -name "*${REQ_LOWER}*validation*" -o -name "*${REQ_ID}*validation*" \) \
-    2>/dev/null | head -1)
+VAL_INPUT=$(find_brief "$VAL_DIR" "validation")
 
 if [ -z "$VAL_INPUT" ]; then
     echo -e "${YELLOW}  No validation brief found for ${REQ_ID}.${NC}"
@@ -147,9 +153,7 @@ if [ -z "$VAL_INPUT" ]; then
     echo "    - Overall result: PASS or FAIL"
     pause "Create the brief, then press [Enter]."
 
-    VAL_INPUT=$(find "$VAL_DIR" -maxdepth 1 \
-        \( -name "*${REQ_LOWER}*validation*" -o -name "*${REQ_ID}*validation*" \) \
-        2>/dev/null | head -1)
+    VAL_INPUT=$(find_brief "$VAL_DIR" "validation")
     [ -z "$VAL_INPUT" ] && fail "Still no validation brief found. Aborting."
 fi
 

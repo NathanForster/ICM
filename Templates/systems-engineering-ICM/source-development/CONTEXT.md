@@ -25,16 +25,21 @@ When implementing any Baselined requirement, follow this sequence exactly.
 | Step | Action | Artifact |
 |------|--------|---------|
 | 1 | Write implementation brief | `input_<REQ-ID>_implementation.md` |
-| 2 | Run stage 03 | `output_03-implementation.md` |
+| 2 | Run stage 03 *(advanced overlay)* | `output_03-implementation.md` |
 | 3 | Write the code in `src/` | source files |
 | 4 | Run lint; run regression tests | (results recorded in step 5) |
 | 5 | Write validation brief | `input_<REQ-ID>_validation.md` |
-| 6 | Run stage 04 | `output_04-validation.md` |
+| 6 | Run stage 04 *(advanced overlay)* | `output_04-validation.md` |
 | 7 | Update requirements register | Status: Baselined → Implemented |
 | 8 | Commit source + ICM artifacts + register | single git commit |
 
 > Do not write code until step 2 is complete.
 > Do not commit until step 6 is complete.
+
+**Base vs. advanced instances:** steps 2 and 6 run `.icm-runner.py`, which ships with the
+`advanced-options/` overlay. In a base instance (no overlay), skip the stage runs — the
+implementation and validation briefs (steps 1 and 5) are still mandatory, and the agent
+performing the work reviews the brief itself before proceeding.
 
 ---
 

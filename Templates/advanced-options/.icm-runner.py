@@ -18,12 +18,18 @@ MODEL SELECTION
 ---------------
 Override the model via:
 
-    LLM_MODEL=claude-sonnet-4-5   # Anthropic
+    LLM_MODEL=claude-opus-4-8     # Anthropic
     LLM_MODEL=gpt-4o-mini         # OpenAI
 
 Defaults (when LLM_MODEL is not set):
-    Anthropic  →  claude-sonnet-4-5
+    Anthropic  →  claude-opus-4-8
     OpenAI     →  gpt-4o
+
+OUTPUT TUNING
+-------------
+    LLM_MAX_TOKENS=16000     # max output tokens per stage call (default 16000)
+    LLM_TEMPERATURE=0.1      # OpenAI only — current Anthropic models (Opus 4.7+)
+                             # reject sampling parameters, so none are sent there
 
 CREDENTIALS
 -----------
@@ -116,7 +122,7 @@ def _detect_provider():
         if not anthropic_key:
             _exit_no_key("anthropic", "ANTHROPIC_API_KEY")
         import anthropic  # noqa: PLC0415
-        resolved_model = model or "claude-sonnet-4-5"
+        resolved_model = model or "claude-opus-4-8"
         print(f"[ICM] Provider : Anthropic  |  Model: {resolved_model}")
         return "anthropic", anthropic.Anthropic(api_key=anthropic_key), resolved_model
 
@@ -238,16 +244,24 @@ def _send_request(
         system_prompt: Static system / instruction context (layers 0–2).
         user_prompt:   Dynamic working content for this call (layers 3–4).
     """
+    max_tokens  = int(os.environ.get("LLM_MAX_TOKENS", "16000"))
+    temperature = float(os.environ.get("LLM_TEMPERATURE", "0.1"))
+
     try:
         if provider == "anthropic":
+            # No sampling parameters: current Anthropic models (Opus 4.7+)
+            # reject temperature/top_p/top_k with a 400.
             response = client.messages.create(
                 model=model,
-                max_tokens=4096,
+                max_tokens=max_tokens,
                 system=system_prompt,
                 messages=[{"role": "user", "content": user_prompt}],
-                temperature=0.1,
             )
-            return response.content[0].text
+            # Skip any leading thinking blocks; return the text content
+            for block in response.content:
+                if block.type == "text":
+                    return block.text
+            return ""
 
         else:  # openai
             response = client.chat.completions.create(
@@ -256,7 +270,7 @@ def _send_request(
                     {"role": "system", "content": system_prompt},
                     {"role": "user",   "content": user_prompt},
                 ],
-                temperature=0.1,
+                temperature=temperature,
             )
             return response.choices[0].message.content
 

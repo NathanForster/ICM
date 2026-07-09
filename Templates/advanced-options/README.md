@@ -26,6 +26,15 @@ Choose advanced when the project needs:
 
 For lighter projects, the base templates alone are simpler to operate.
 
+## Data transmission notice
+
+The pipeline runner (`.icm-runner.py`) sends stage content — ICM.md, CONTEXT.md,
+stage contracts, reference files, and input briefs — to the configured cloud LLM
+provider (Anthropic or OpenAI) for processing. Do not place credentials, export-
+controlled data, or information barred from third-party processing in stage
+folders. For such projects, run stages manually per the stage contracts instead
+of using the runner, or use an approved provider endpoint.
+
 ## DID usage rule
 
 DID digests and PDFs stay in this repository. Project instances generate their

@@ -160,7 +160,6 @@ When applicable, generate:
 - templates/
 - state/
 - decisions/
-- inbox/
 - projects/
 - docs/ (formal deliverables — see below)
 
@@ -186,7 +185,14 @@ If the project has DoD or formal contractual deliverables (SRS, SDD, STP, RTVM, 
 # Required Deliverable
 
 The final deliverable is a fully generated folder structure with populated example
-markdown files. The delivery method depends on the environment:
+markdown files.
+
+**Record the template version:** in the instance's top-level `CONTEXT.md`, note the
+ICM templates repository commit (`git -C <templates-repo> rev-parse --short HEAD`)
+and date the instance was generated from, so future agents can diff against the
+templates that produced it.
+
+The delivery method depends on the environment:
 
 - **Local agent with filesystem access** (e.g. Claude Code): create the project
   directly as a sibling folder under `.ai/` (see the Recommended Folder Structure

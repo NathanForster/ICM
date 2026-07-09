@@ -1,3 +1,12 @@
 # Templates
 
-Reusable templates.
+Reusable document and artifact templates.
+
+## What Belongs Here
+
+- Document skeletons (report, test evidence, meeting record)
+- Artifact templates (implementation brief, validation brief) if a project
+  customizes them beyond the defaults in `source-development/workflows/`
+- For DoD formal deliverable structures, use the DID digests in the ICM
+  templates repository (`Templates/advanced-options/DIDs/`) rather than
+  duplicating them here

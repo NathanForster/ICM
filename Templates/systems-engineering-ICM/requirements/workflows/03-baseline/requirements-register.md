@@ -23,7 +23,8 @@
 5. **If superseded** — set Status to `Superseded` and note the replacement REQ ID in Trace.
 
 Run `python check_requirements.py` at any time to verify register consistency and detect
-missing ICM artifacts.
+missing ICM artifacts *(script ships with the `advanced-options/` overlay; in a base
+instance, audit manually per the icm-validate procedure in `../../AGENT.md`)*.
 
 ---
 

@@ -35,7 +35,6 @@ this one under `.ai/`. See [README.md](README.md).
 
 ## Open items
 
-- Minor: on the "Creating a Project Instance" slide, the step-01 number renders as a
-  stacked "0"/"1" (its number text box is a hair narrow). Pre-existing, cosmetic.
-- Optional DID additions if projects need them: IDD (DI-IPSC-81436), DBDD (DI-IPSC-81437).
+- Optional DID additions if projects need them: IDD (DI-IPSC-81436), DBDD (DI-IPSC-81437)
+  — requires the PDFs to be downloaded from quicksearch.dla.mil and provided.
 - Methodology pilot in progress; templates not yet validated at organizational scale.
