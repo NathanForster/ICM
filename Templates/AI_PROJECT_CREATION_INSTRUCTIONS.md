@@ -171,18 +171,31 @@ metrics, state) include:
 
 The top-level `CONTEXT.md` routing table must list every workspace that exists —
 and only workspaces that exist. Routing and folder structure must never disagree.
+Folders that are *not* workspaces (`src/`, `docs/`, `docs/output/`) go in a separate
+"Non-workspace folders" table beneath the routing table, each with its owning workspace
+— so every top-level folder is accounted for without pretending it is routable.
+
+**Base vs. advanced instances.** The sys-eng template's files mention the advanced
+overlay's scripts (`.icm-runner.py`, `check_requirements.py`, `run_*.sh`) alongside a
+"base instance" alternative. When generating a **base** instance, delete the
+advanced-only lines and blocks (they are marked) and keep the manual alternative, so the
+instance never tells an agent to run a script that does not exist. When generating an
+**advanced** instance, keep both.
 
 ---
 
 ## Generate Supporting Systems
 
 When applicable, generate:
-- standards/
+- standards/  (with at least one concrete standard file if the interview supplied
+  coding/naming/review rules — the README says "one standard per file")
 - templates/
 - state/
 - decisions/
-- projects/
+- governance/  (with an approval-matrix file if the interview supplied approval or
+  escalation paths)
 - docs/ (deliverables — see below)
+- src/ and src/tests/ (placeholder READMEs, since workspace files reference them)
 
 ---
 
@@ -190,7 +203,9 @@ When applicable, generate:
 
 Deliverable *definitions* — DoD DID digests, manual/UAT/tracker/summary/runbook templates,
 and the consolidated-PDF tooling — live in the companion **SE-Deliverables** library
-(`.ai/SE-Deliverables/`, https://github.com/NathanForster/SE-Deliverables). ICM does not
+(https://github.com/NathanForster/SE-Deliverables). It is a **sibling of the project
+instance under `.ai/`** — i.e. `.ai/SE-Deliverables/` beside `.ai/ICM/` and
+`.ai/<project>/`, *not* inside the project. If it is absent, clone it there. ICM does not
 depend on it; the Documentation Requirements checklist in Step 2 decides whether the
 project uses it.
 
@@ -221,16 +236,25 @@ project uses it.
   items considered but not selected, with the reason.
 - For DoD deliverables, use `SE-Deliverables/DIDs/GUIDE.md` to check dependency order
   (e.g. OCD before SSS before SRS) and to catch missing companions (an SRS with external
-  interfaces usually wants an IRS).
+  interfaces usually wants an IRS). **If the GUIDE recommends a document the user did not
+  select, honour the user's selection** — do not silently add it — and record the
+  recommendation in `docs/DELIVERABLES.md`'s "Not selected" table as a flagged candidate.
+- Templates that reference other library items (the live-testing checklist assumes a
+  generated summary and the consolidated PDF set; the backlog references a deviations
+  register) carry those references as conditional. When instantiating, **remove
+  references to items the user did not select** rather than leaving dangling pointers.
 - If the consolidated PDF set was selected: copy `SE-Deliverables/tools/docset/DOCSET.example.json`
   to the instance root as `DOCSET.json` populated with the selected documents; create
   `docs/output/README.md` from `SE-Deliverables/templates/docs-output/README.md`; append
   the `.gitignore` snippet.
-- Route deliverable work: in the sys-eng template, `documentation/` owns manuals,
-  summaries, DID documents, and runbooks; `requirements/` owns the register and its RTVM
-  counterpart; `verification-validation/` owns UAT and live-testing records. In the
+- Route deliverable work. In the sys-eng template: `documentation/` owns manuals,
+  summaries, DID documents, runbooks, and the enhancement-request intake;
+  `requirements/` owns the register, its RTVM counterpart, and the **backlog**;
+  `verification-validation/` owns UAT findings, the status table, and live-testing
+  records; `decisions/` owns the deviations register (it is a decision log). In the
   generic template, `writing-room/` owns them all unless the user says otherwise. Add the
-  chosen documents to the owning workspace's `CONTEXT.md` so routing stays deterministic.
+  chosen documents to the owning workspace's `CONTEXT.md` — or its `README.md` for
+  registry workspaces, which have no CONTEXT.md — so routing stays deterministic.
 
 ---
 

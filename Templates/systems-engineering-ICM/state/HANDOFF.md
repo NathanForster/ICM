@@ -62,29 +62,32 @@ All commands assume `CWD = [project root]` unless noted.
 # Run the application
 [run command]
 
+# --- ADVANCED OVERLAY ONLY — delete this block in a base instance ---
 # Full data/content pipeline
 bash run_data_pipeline.sh
-
 # Source-development pipeline (single REQ)
 bash run_source_dev.sh <REQ-ID>
-
 # Isolated ICM stage
 python .icm-runner.py source-development/workflows 03-implementation
 python .icm-runner.py source-development/workflows 04-validation
-
 # Check requirements register consistency
 python check_requirements.py
+# --- end advanced-only block ---
 ```
 
 ---
 
 ## 5. Security Constraints — NEVER Violate
 
-- `src/config/.env` — contains live API keys and service credentials.
-  **Gitignored. Never read its contents into a response. Never commit it.**
-- Any `*.env.bak` or similar backup — same rule.
-- All credentials flow via environment variables or `python-dotenv` at runtime.
-- The only committed credential file is `src/config/.env.example` (placeholders only).
+<!-- Tailor to the project. Delete lines that do not apply; add the project's own. -->
+
+- `[If the project has credentials:]` `src/config/.env` contains live API keys and
+  service credentials. **Gitignored. Never read its contents into a response. Never
+  commit it.** Any `*.env.bak` or similar backup — same rule. All credentials flow via
+  environment variables or `python-dotenv` at runtime. The only committed credential
+  file is `src/config/.env.example` (placeholders only).
+- `[Project-specific constraint — e.g. "No network access: the application must not
+  open sockets or make HTTP calls."]`
 
 ---
 
@@ -121,11 +124,15 @@ A table or bullet list with file paths is ideal.]`
 ### Pipeline sequence (mandatory for every Baselined requirement)
 
 1. Write `input_<REQ-ID>_implementation.md` in `source-development/workflows/03-implementation/`
-2. Run: `python .icm-runner.py source-development/workflows 03-implementation`
+2. Review the brief against the stage contract (`03-implementation/CONTEXT.md`) and write
+   `output_03-implementation.md` — *advanced overlay:* `python .icm-runner.py source-development/workflows 03-implementation`;
+   *base instance:* the implementing agent/engineer performs the review and writes the output manually
 3. Write the code in `src/`
 4. Run lint + tests
 5. Write `input_<REQ-ID>_validation.md` in `source-development/workflows/04-validation/`
-6. Run: `python .icm-runner.py source-development/workflows 04-validation`
+6. Assess the brief against the stage contract (`04-validation/CONTEXT.md`) and write
+   `output_04-validation.md` — *advanced:* `python .icm-runner.py source-development/workflows 04-validation`;
+   *base:* performed manually as in step 2
 7. Update register (Baselined → Implemented)
 8. Commit source + artifacts + register in one commit
 

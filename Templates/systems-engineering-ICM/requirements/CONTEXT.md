@@ -10,7 +10,8 @@ traceability, and status tracking.
 - add, triage, and baseline requirements in the register
 - update requirement status through the lifecycle (Baselined → Implemented → Verified)
 - maintain the traceability matrix
-- run `check_requirements.py` consistency checks
+- run consistency checks (`check_requirements.py` in an advanced instance; the
+  icm-validate procedure in `AGENT.md` in a base instance)
 
 ## Never
 

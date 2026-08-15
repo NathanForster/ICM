@@ -22,11 +22,13 @@ Every requirement is Done when ALL of the following are true:
 
 - [ ] Implementation brief written (`input_<REQ-ID>_implementation.md`)
       — includes: design summary, files modified, key functions/classes, constraints
-- [ ] Stage 03 run — `output_03-implementation.md` produced *(advanced overlay only)*
+- [ ] Stage 03 review — `output_03-implementation.md` produced (by `.icm-runner.py` in an
+      advanced instance; written manually against the stage contract in a base instance)
 - [ ] Code written in `src/` with no linting errors
 - [ ] Validation brief written (`input_<REQ-ID>_validation.md`)
       — includes: lint result, logic review, edge cases, test results, PASS/FAIL verdict
-- [ ] Stage 04 run — `output_04-validation.md` produced *(advanced overlay only)*
+- [ ] Stage 04 assessment — `output_04-validation.md` produced (runner in advanced;
+      manual in base, as step 03)
 - [ ] Requirements register Status updated: `Baselined` → `Implemented`
 - [ ] Traceability matrix Trace column updated with source file(s)
 - [ ] Source code + ICM artifacts + register committed in a single git commit

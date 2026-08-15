@@ -6,7 +6,8 @@
 ## Purpose
 
 Maps every requirement to the source file(s), test file(s), and ICM artifacts that
-implement and verify it.  Used by `check_requirements.py` and manual audits to
+implement and verify it.  Used by manual audits (and `check_requirements.py` in an
+advanced instance) to
 confirm that no requirement is implemented without documentation, and no
 documentation exists without a corresponding implementation.
 
