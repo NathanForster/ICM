@@ -123,7 +123,9 @@ It should gather information such as:
 - workflow stages
 - review requirements
 - validation requirements
-- documentation needs
+- documentation needs — asked as a checklist drawn from the companion SE-Deliverables
+  library (DoD DIDs, manuals, UAT/live-testing records, trackers, summaries, runbooks,
+  consolidated PDF set), with "none" as an option
 
 ## Operational Information
 - coding standards

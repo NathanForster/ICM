@@ -32,11 +32,14 @@ Then ask the user if they would like the **advanced version** of the ICM. Explai
 
 If yes, merge the `advanced-options/` content with the user's selected template.
 
-Separately from the advanced choice, ask whether the project has **formal deliverable
-requirements** (DoD DIDs, contract-mandated manuals, UAT records). If yes, confirm the
-companion **SE-Deliverables** library is available at `.ai/SE-Deliverables/` (clone from
-https://github.com/NathanForster/SE-Deliverables if not) — see the Formal Deliverables
-section below.
+Separately from the advanced choice, the interview (Step 2, Documentation Requirements)
+asks **which documents the project will produce**, offering the companion
+**SE-Deliverables** library's contents as options. Do not gate this on the phrase "formal
+deliverables" — a project may need a user's manual, a UAT log, or a backlog without
+thinking of them as formal. If the user selects anything, confirm SE-Deliverables is
+available at `.ai/SE-Deliverables/` (clone from
+https://github.com/NathanForster/SE-Deliverables if not) — see the Deliverables section
+below.
 
 Read:
 - `ICM.md`
@@ -86,11 +89,24 @@ Gather information about:
 - escalation paths
 
 ### Documentation Requirements
-- user manuals
-- specifications
-- validation reports
-- release notes
-- formal deliverables (see Formal Deliverables below)
+
+Ask this as a **multi-select checklist**: *"Which of these documents will this project
+produce?"* — grouped as below, with an explicit **"None of these"** option. Every item maps
+to a definition in the companion SE-Deliverables library; see the Deliverables section
+for what to do with the answer.
+
+- **DoD / contract deliverables** (DID-governed): OCD, SSS, SRS, IRS, SDD, IDD, DBDD, SDP,
+  CMP, CI Documentation Recommendation, STP, STPr, STR, RTVM, CTP, CSTP/CSTD, CSTR, SPS, SVD
+- **Manuals:** User's Manual, Programmer's Manual
+- **Acceptance & live testing:** UAT findings log (+ tester-facing status table),
+  live-testing checklist
+- **Trackers:** backlog, enhancement-request intake, deviations register (for ports /
+  migrations of a reference system)
+- **Summaries:** management summary, executive summary
+- **Operations:** runbooks (risk-tiered)
+- **Consolidated PDF documentation set** (DOCSET.json-driven build; implies a gitignored
+  `docs/output/` with its self-explaining README)
+- release notes / other (free-form)
 
 ### Compliance and Governance
 - regulatory requirements
@@ -166,26 +182,55 @@ When applicable, generate:
 - state/
 - decisions/
 - projects/
-- docs/ (formal deliverables — see below)
+- docs/ (deliverables — see below)
 
 ---
 
-## Formal Deliverables
+## Deliverables (the SE-Deliverables companion library)
 
-If the project has DoD or formal contractual deliverables (SRS, SDD, STP, RTVM, user
-manuals, UAT records, etc.), their definitions live in the companion **SE-Deliverables**
-library (`.ai/SE-Deliverables/`, https://github.com/NathanForster/SE-Deliverables):
+Deliverable *definitions* — DoD DID digests, manual/UAT/tracker/summary/runbook templates,
+and the consolidated-PDF tooling — live in the companion **SE-Deliverables** library
+(`.ai/SE-Deliverables/`, https://github.com/NathanForster/SE-Deliverables). ICM does not
+depend on it; the Documentation Requirements checklist in Step 2 decides whether the
+project uses it.
 
-- **Do NOT copy DID digests or templates into the project instance.** They stay in the
-  SE-Deliverables library and are loaded from there when generating or validating a
-  deliverable.
-- **Create the deliverable documents themselves in a `docs/` folder** in the project
-  instance, one document per required deliverable, structured per the relevant DID
-  digest or template (e.g. `docs/SRS.md`, `docs/SDD.md`, `docs/RTVM.md`).
-- Use `SE-Deliverables/DIDs/GUIDE.md` to select which DoD deliverables the project
-  needs based on contract type and project phase.
-- Record in the project's top-level `CONTEXT.md` which library item governs which
-  `docs/` file, so future agents know where the authoritative definition lives.
+**Always, regardless of the checklist answer:**
+
+- Write a standing pointer in the instance's top-level `CONTEXT.md`:
+
+  ```
+  ## Deliverable library
+  Companion: `.ai/SE-Deliverables/` (https://github.com/NathanForster/SE-Deliverables)
+  Selected for this project: <list, or "none at creation — add via SE-Deliverables/templates/README.md">
+  ```
+
+  so a later session on the project can find the library even if nothing was chosen now.
+
+**When any document was selected:**
+
+- **Do NOT copy DID digests or templates into the project instance.** They stay in
+  SE-Deliverables and are loaded from there when generating or validating a deliverable.
+- **Create the deliverable documents themselves in the instance's `docs/` folder**, one
+  per selected item, named per the template/digest header (e.g. `docs/SRS-<P>.md`,
+  `docs/USERS-MANUAL-<P>.md`; living trackers in `docs/status/`). Populate each from
+  its digest/template with the project's identity filled in and remaining sections
+  scaffolded — do not leave a bare filename.
+- **Create `docs/DELIVERABLES.md`** from `SE-Deliverables/templates/DELIVERABLES-TEMPLATE.md`
+  — one row per selected document: file → governing library item (path) → owner
+  workspace → status. This is the authoritative map for future agents. Record library
+  items considered but not selected, with the reason.
+- For DoD deliverables, use `SE-Deliverables/DIDs/GUIDE.md` to check dependency order
+  (e.g. OCD before SSS before SRS) and to catch missing companions (an SRS with external
+  interfaces usually wants an IRS).
+- If the consolidated PDF set was selected: copy `SE-Deliverables/tools/docset/DOCSET.example.json`
+  to the instance root as `DOCSET.json` populated with the selected documents; create
+  `docs/output/README.md` from `SE-Deliverables/templates/docs-output/README.md`; append
+  the `.gitignore` snippet.
+- Route deliverable work: in the sys-eng template, `documentation/` owns manuals,
+  summaries, DID documents, and runbooks; `requirements/` owns the register and its RTVM
+  counterpart; `verification-validation/` owns UAT and live-testing records. In the
+  generic template, `writing-room/` owns them all unless the user says otherwise. Add the
+  chosen documents to the owning workspace's `CONTEXT.md` so routing stays deterministic.
 
 ---
 

@@ -35,6 +35,21 @@ Always load local CONTEXT.md files (where present) before execution.
 
 ---
 
+## Deliverable library
+
+Deliverable definitions — DoD DID digests (OCD, SSS, SRS, SDD, STP, RTVM, …), manual /
+UAT / tracker / summary / runbook templates, and the consolidated-PDF tooling — live in
+the companion **SE-Deliverables** library (`.ai/SE-Deliverables/`,
+https://github.com/NathanForster/SE-Deliverables). Generated deliverables go in this
+project's `docs/` (living trackers in `docs/status/`); the map of which library item
+governs which file is `docs/DELIVERABLES.md`. Never copy library files into this project.
+
+Ownership: `documentation/` — manuals, summaries, DID documents, runbooks ·
+`requirements/` — register and RTVM · `verification-validation/` — UAT and live-testing
+records.
+
+---
+
 ## Version Control — Files That Must Be Gitignored
 
 This is the canonical gitignore guidance for the project; other context files reference

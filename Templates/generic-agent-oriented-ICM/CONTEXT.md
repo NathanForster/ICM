@@ -25,6 +25,13 @@ Use for:
 Support directory (not a routed workspace) — persistent operational memory.
 Read `state/HANDOFF.md` at the start of every session; update it at the end.
 
+## docs/ (when present)
+Project deliverables — manuals, UAT records, trackers, summaries — generated from
+definitions in the companion **SE-Deliverables** library (`.ai/SE-Deliverables/`,
+https://github.com/NathanForster/SE-Deliverables). Owned by `writing-room/` unless the
+project's `docs/DELIVERABLES.md` says otherwise. Never copy library files into this
+project; generate documents from them.
+
 Always load local CONTEXT.md files before execution.
 
 ---
