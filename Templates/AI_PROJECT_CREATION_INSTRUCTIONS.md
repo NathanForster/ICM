@@ -29,9 +29,14 @@ Then ask the user if they would like the **advanced version** of the ICM. Explai
 - a stage-gated pipeline runner (`.icm-runner.py`, `run_data_pipeline.sh`, `run_source_dev.sh`) with human review pauses between stages
 - a `CLAUDE.md` context proxy enforcing a mandatory implementation → validation sequence per requirement
 - stricter global constraints (`ICM.md`) covering output formatting, code standards, and hallucination guardrails
-- the DoD **DIDs library** (`advanced-options/DIDs/`) — Data Item Description digests for generating contractually compliant deliverables (see its `GUIDE.md`)
 
 If yes, merge the `advanced-options/` content with the user's selected template.
+
+Separately from the advanced choice, ask whether the project has **formal deliverable
+requirements** (DoD DIDs, contract-mandated manuals, UAT records). If yes, confirm the
+companion **SE-Deliverables** library is available at `.ai/SE-Deliverables/` (clone from
+https://github.com/NathanForster/SE-Deliverables if not) — see the Formal Deliverables
+section below.
 
 Read:
 - `ICM.md`
@@ -85,7 +90,7 @@ Gather information about:
 - specifications
 - validation reports
 - release notes
-- formal deliverables (see DID-Based Deliverables below)
+- formal deliverables (see Formal Deliverables below)
 
 ### Compliance and Governance
 - regulatory requirements
@@ -165,20 +170,22 @@ When applicable, generate:
 
 ---
 
-## DID-Based Deliverables
+## Formal Deliverables
 
-If the project has DoD or formal contractual deliverables (SRS, SDD, STP, RTVM, etc.):
+If the project has DoD or formal contractual deliverables (SRS, SDD, STP, RTVM, user
+manuals, UAT records, etc.), their definitions live in the companion **SE-Deliverables**
+library (`.ai/SE-Deliverables/`, https://github.com/NathanForster/SE-Deliverables):
 
-- **Do NOT copy the DID digest `.md` files into the project instance.** The digests
-  stay in the ICM templates repository (`Templates/advanced-options/DIDs/`) and are
-  loaded from there when generating or validating a deliverable.
+- **Do NOT copy DID digests or templates into the project instance.** They stay in the
+  SE-Deliverables library and are loaded from there when generating or validating a
+  deliverable.
 - **Create the deliverable documents themselves in a `docs/` folder** in the project
   instance, one document per required deliverable, structured per the relevant DID
-  digest (e.g. `docs/SRS.md`, `docs/SDD.md`, `docs/RTVM.md`).
-- Use `Templates/advanced-options/DIDs/GUIDE.md` to select which deliverables the
-  project needs based on contract type and project phase.
-- Record in the project's top-level `CONTEXT.md` which DIDs govern which `docs/`
-  files, so future agents know where the authoritative format definitions live.
+  digest or template (e.g. `docs/SRS.md`, `docs/SDD.md`, `docs/RTVM.md`).
+- Use `SE-Deliverables/DIDs/GUIDE.md` to select which DoD deliverables the project
+  needs based on contract type and project phase.
+- Record in the project's top-level `CONTEXT.md` which library item governs which
+  `docs/` file, so future agents know where the authoritative definition lives.
 
 ---
 

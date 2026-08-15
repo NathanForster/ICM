@@ -15,5 +15,5 @@ Validation workflows and evidence.
 - Name evidence files so the REQ ID is visible: `REQ-42-test-report.md`
 - A requirement may only be marked `Verified` in the register when evidence
   exists here, in `src/tests/`, or the human operator confirms manual verification
-- For formal test deliverables (STP, STPr, STR, RTVM) see the DIDs library in
-  the ICM templates repository (`Templates/advanced-options/DIDs/GUIDE.md`)
+- For formal test deliverables (STP, STPr, STR, RTVM) see the companion
+  SE-Deliverables library (`.ai/SE-Deliverables/DIDs/GUIDE.md`)

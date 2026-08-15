@@ -59,8 +59,11 @@ A `.ai/` parent directory is recommended for all of these folders. The name sign
 │       ├── README.md
 │       ├── AI_PROJECT_CREATION_INSTRUCTIONS.md
 │       ├── generic-agent-oriented-ICM/
-│       └── systems-engineering-ICM/
+│       ├── systems-engineering-ICM/
+│       └── advanced-options/
 │
+├── SE-Deliverables/              ← optional companion: deliverable definitions
+│                                    (DoD DIDs, manual templates, UAT artifacts)
 ├── skills/                       ← shared prompts and instructions
 ├── memory/                       ← shared context across projects
 ├── tools/                        ← shared scripts and utilities
@@ -71,17 +74,14 @@ A `.ai/` parent directory is recommended for all of these folders. The name sign
 
 ---
 
-## advanced-options/DIDs/
+## Companion: SE-Deliverables
 
-A library of US DoD Data Item Description (DID) PDFs and AI-readable `.md` digests for programs operating under DoD software/systems engineering standards (MIL-STD-498 family, EIA-649, DoD RMF).
-
-Relevant for:
-- DoD software acquisition contracts (CDRL-driven deliverables)
-- Systems engineering projects with formal qualification testing
-- Programs requiring configuration management per EIA-649
-- Cybersecurity testing under the DoD Risk Management Framework (RMF)
-
-See [`advanced-options/DIDs/GUIDE.md`](advanced-options/DIDs/GUIDE.md) for DID selection guidance, document dependency map, and cross-reference matrix.
+Formal deliverable definitions — US DoD Data Item Description (DID) digests, manual
+templates, UAT artifacts, and documentation-set tooling — live in a separate companion
+repository: [SE-Deliverables](https://github.com/NathanForster/SE-Deliverables). Clone
+it beside ICM under `.ai/` when a project has DoD, contractual, or formal documentation
+requirements. ICM does not depend on it; it is optional for projects without such
+requirements.
 
 ---
 

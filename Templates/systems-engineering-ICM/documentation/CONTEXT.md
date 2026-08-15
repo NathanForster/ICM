@@ -17,13 +17,14 @@ This workspace owns all tasks related to technical documentation and plans.
 - bypass validation
 - modify unrelated workspaces
 
-## Formal (DID-Based) Deliverables
+## Formal Deliverables
 
-For DoD-contract or formally governed deliverables (SRS, SDD, STP, STR, RTVM, etc.):
+For DoD-contract or formally governed deliverables (SRS, SDD, STP, STR, RTVM, user
+manuals, UAT records, etc.):
 
-- Load the relevant digest from the ICM templates repository at
-  `Templates/advanced-options/DIDs/` — see its `GUIDE.md` for selection guidance
-  and the document dependency map.
-- **Do not copy DID digest files into this project.** Generate the deliverable
-  documents themselves in the project's `docs/` folder (e.g. `docs/SRS.md`),
-  structured per the governing DID.
+- Load the relevant DID digest or template from the companion **SE-Deliverables**
+  library (`.ai/SE-Deliverables/`) — see `DIDs/GUIDE.md` there for DoD selection
+  guidance and the document dependency map.
+- **Do not copy library files into this project.** Generate the deliverable documents
+  themselves in the project's `docs/` folder (e.g. `docs/SRS.md`), structured per the
+  governing DID or template.

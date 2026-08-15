@@ -59,14 +59,16 @@ project instances are meant to live in their *own* repositories, not here.
   - `advanced-options/` — an optional overlay that adds a stage-gated pipeline runner with
     human review pauses, a `CLAUDE.md` context proxy enforcing an implementation → validation
     sequence per requirement, and stricter global constraints.
-    - `advanced-options/DIDs/` — a library of **US DoD Data Item Descriptions** (PDF +
-      AI-readable digest pairs) for generating contractually compliant deliverables — SRS,
-      SDD, STP, RTVM, cybersecurity test documents, and more — with a selection guide and
-      document dependency map (`DIDs/GUIDE.md`).
 - **`Examples/`** — worked project instances showing what a generated ICM repository looks
   like after real work has flowed through it (requirements, briefs, code, evidence, handoff).
 - **`Interpretable_Context_Methodology_(ICM).pdf` / `.pptx`** — a full walkthrough of the
   methodology, its design principles, file anatomy, and execution flow.
+
+**Companion repository:** [SE-Deliverables](https://github.com/NathanForster/SE-Deliverables)
+holds formal deliverable definitions — US DoD Data Item Description digests (SRS, SDD, STP,
+RTVM, cybersecurity test documents, and more), manual templates, and UAT artifacts. It is
+optional: ICM works without it, and projects with contractual documentation requirements
+clone it alongside ICM.
 
 ## Getting started
 

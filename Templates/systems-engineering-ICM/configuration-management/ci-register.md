@@ -19,5 +19,5 @@
 - Every CI has exactly one current baseline and a named change authority
 - Baseline changes append to the log — never rewrite history
 - CI designation rationale belongs in `decisions/` (ADR) or, for DoD contracts,
-  in a CI Documentation Recommendation (DI-SESS-82007B — digest in the ICM
-  templates repository under `Templates/advanced-options/DIDs/`)
+  in a CI Documentation Recommendation (DI-SESS-82007B — digest in the companion
+  SE-Deliverables library under `.ai/SE-Deliverables/DIDs/`)

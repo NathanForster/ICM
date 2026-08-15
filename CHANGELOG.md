@@ -6,8 +6,12 @@ record the template version they were created from (see
 
 ## 2026-07
 
-- **DIDs library completed** — IDD (DI-IPSC-81436A) and DBDD (DI-IPSC-81437A) added,
-  closing the SDD's delegated-design references; 18 DID pairs total
+- **DIDs library moved to companion repo** — `Templates/advanced-options/DIDs/` (18 DID
+  pairs + GUIDE) separated into [SE-Deliverables](https://github.com/NathanForster/SE-Deliverables)
+  so ICM remains a pure orchestration methodology; all cross-references now point to
+  `.ai/SE-Deliverables/`. Deliverable definitions were never required for ICM operation.
+- **DIDs library completed** (before the move) — IDD (DI-IPSC-81436A) and DBDD
+  (DI-IPSC-81437A) added, closing the SDD's delegated-design references; 18 DID pairs total
 - **Worked example added** (`Examples/temp-logger/`) — one requirement through the
   full lifecycle with briefs, register, matrix, ADR, source, passing tests, and handoff
 - **Stage scaffolds shipped** — `source-development/workflows/03-implementation/` and

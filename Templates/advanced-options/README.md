@@ -15,16 +15,23 @@ project instance.
 | `run_data_pipeline.sh` | Full data pipeline (ingest → transform → validate → load) with review pauses between stages |
 | `run_source_dev.sh` | Per-requirement source-development pipeline (implementation brief → code → validation brief) |
 | `check_requirements.py` | Consistency check — flags register rows missing ICM artifacts and orphan artifacts |
-| `DIDs/` | US DoD Data Item Description library (PDF + AI-readable digest pairs) — see [DIDs/GUIDE.md](DIDs/GUIDE.md) |
 
 ## When to choose the advanced version
 
 Choose advanced when the project needs:
 - enforced human review gates between workflow stages
 - per-requirement implementation/validation artifacts with an auditable trail
-- formal (DoD/contractual) deliverables generated from the DIDs library
 
 For lighter projects, the base templates alone are simpler to operate.
+
+## Formal deliverables
+
+Deliverable definitions — DoD Data Item Description digests, manual templates, UAT
+artifacts — live in the companion **SE-Deliverables** repository
+(`.ai/SE-Deliverables/`, https://github.com/NathanForster/SE-Deliverables). It is
+optional and independent of the advanced overlay: any ICM project (base or advanced)
+with formal deliverable requirements can reference it. Project instances generate their
+deliverables in their own `docs/` folder; the library is never copied into a project.
 
 ## Data transmission notice
 
@@ -34,9 +41,3 @@ provider (Anthropic or OpenAI) for processing. Do not place credentials, export-
 controlled data, or information barred from third-party processing in stage
 folders. For such projects, run stages manually per the stage contracts instead
 of using the runner, or use an approved provider endpoint.
-
-## DID usage rule
-
-DID digests and PDFs stay in this repository. Project instances generate their
-deliverable documents in their own `docs/` folder (e.g. `docs/SRS.md`), structured
-per the governing DID — see [DIDs/GUIDE.md](DIDs/GUIDE.md).
