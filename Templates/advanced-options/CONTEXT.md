@@ -115,7 +115,7 @@ This pipeline enforces a **strict gate pattern** between stages.
 
 ## 6. VERSION CONTROL
 
-> **Discard on merge.** The base template's `CONTEXT.md` **Version Control** section is
-> canonical. The overlay adds nothing here except a reminder that pipeline `output_*.md`
-> and `input_*.md` artifacts **are** committed (they are the audit trail), while any
-> `.env` used for `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` is not.
+> **Discard on merge — nothing to carry.** The base template's `CONTEXT.md` **Version
+> Control** section is canonical and already states that pipeline `input_*.md` /
+> `output_*.md` artifacts **are** committed (the audit trail) while any `.env` holding
+> `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` is not.

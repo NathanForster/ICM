@@ -136,6 +136,10 @@ def find_orphan_artifacts(directory: Path, req_ids: set[str], kind: str) -> list
     for fname in os.listdir(directory):
         if kind not in fname.lower():
             continue
+        # Stage outputs (output_03-implementation.md etc.) and the stage contract
+        # are not per-requirement artifacts — never orphans.
+        if fname.lower().startswith("output_") or fname == "CONTEXT.md":
+            continue
         # Check whether any known REQ ID appears in the filename
         fname_lower = fname.lower()
         matched = any(
@@ -231,8 +235,8 @@ def run_checks(register_path: Path, impl_dir: Path, val_dir: Path) -> bool:
             if not trace or trace == "—":
                 r.warn(f"{rid}: Status=Verified but Trace column is empty")
 
-        # Baselined: no artifacts required yet
-        if status == "Baselined":
+        # Captured / blank / Baselined: not yet implemented — no artifacts required
+        if status in ("Captured", "", "Baselined"):
             open_count += 1
             continue
 
@@ -270,7 +274,7 @@ def run_checks(register_path: Path, impl_dir: Path, val_dir: Path) -> bool:
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     print(f"  Total requirements : {len(reqs)}")
     print(f"  Verified           : {verified_count}")
-    print(f"  Open (Baselined)   : {open_count}")
+    print(f"  Open (not yet impl.): {open_count}")
     print(f"  Superseded         : {superseded_count}")
     print(f"  Backfill needed    : {len(backfill_needed)}")
     print(f"  Errors             : {len(r.errors)}")

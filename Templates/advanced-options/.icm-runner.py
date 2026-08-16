@@ -285,7 +285,12 @@ def _send_request(
 # Stage executor
 # ---------------------------------------------------------------------------
 
-def execute_icm_stage(workspace_root: str, stage_folder_name: str) -> None:
+def execute_icm_stage(
+    workspace_root: str,
+    stage_folder_name: str,
+    only_inputs=None,
+    extra_artifacts=None,
+) -> None:
     """Run one ICM pipeline stage.
 
     Assembles the layered context hierarchy by walking UP from the stage
@@ -306,8 +311,10 @@ def execute_icm_stage(workspace_root: str, stage_folder_name: str) -> None:
     (``<root>/01-ingest/`` with ICM.md/CONTEXT.md at ``<root>``) and the
     systems-engineering layout (``<root>/source-development/workflows/03-…``
     with ICM.md/CONTEXT.md at ``<root>`` and at ``<root>/source-development/``).
-    The project root is the nearest ancestor containing ICM.md (or, failing
-    that, the ``workspace_root`` argument's own ancestor chain top).
+    The project root is the **topmost** ancestor containing ICM.md, bounded by
+    the repository root (a directory holding ``.git``) when one is met on the
+    way up. "Nearest" would be wrong: sys-eng active workspaces carry their own
+    ICM.md, and stopping there would silently drop the project-level layers.
 
     The assembled system prompt (layers 0–2) and user prompt (layers 3–4)
     are sent to the active LLM.  The response is written to
@@ -321,6 +328,14 @@ def execute_icm_stage(workspace_root: str, stage_folder_name: str) -> None:
                             (e.g. ``source-development/workflows``). It need not
                             itself hold ICM.md — the runner walks up to find it.
         stage_folder_name:  Name of the stage sub-folder (e.g. ``"03-implementation"``).
+        only_inputs:        Optional list of file names inside the stage folder.
+                            When given, ONLY these are loaded as Layer 4 (instead
+                            of every ``input``/``artifact`` file present) — used
+                            by per-requirement pipelines so earlier briefs do not
+                            pollute the run.
+        extra_artifacts:    Optional list of paths (relative to CWD) loaded as
+                            additional Layer 4 artifacts from anywhere — e.g. the
+                            previous stage's ``output_*.md``.
     """
     provider, client, model = _detect_provider()
     stage_path = os.path.join(workspace_root, stage_folder_name)
@@ -338,20 +353,29 @@ def execute_icm_stage(workspace_root: str, stage_folder_name: str) -> None:
                 return fh.read().strip()
         return ""
 
-    # Walk up from the stage folder's parent to the project root, collecting
-    # context files. Root = nearest ancestor holding ICM.md; stop there.
+    # Walk up from the stage folder's parent, collecting every ancestor.
+    # Root = the TOPMOST ancestor holding ICM.md, but never above a directory
+    # that holds .git (the repository root). Workspaces have their own ICM.md,
+    # so "nearest ICM.md" would stop one level too low in nested layouts.
     stage_abs = os.path.abspath(stage_path)
-    ancestors = []
+    chain = []
     cur = os.path.dirname(stage_abs)
     while True:
-        ancestors.append(cur)
-        if os.path.exists(os.path.join(cur, "ICM.md")):
-            break
+        chain.append(cur)
+        if os.path.exists(os.path.join(cur, ".git")):
+            break                      # repository root — do not climb further
         parent = os.path.dirname(cur)
         if parent == cur:
-            break
+            break                      # filesystem root
         cur = parent
-    ancestors.reverse()  # root first, then down toward the stage folder
+    # chain[0] is the stage folder's parent; chain[-1] the highest dir visited.
+    root_idx = None
+    for i, d in enumerate(chain):
+        if os.path.exists(os.path.join(d, "ICM.md")):
+            root_idx = i               # keep going — we want the highest one
+    if root_idx is None:
+        root_idx = 0                   # nothing found; warn below
+    ancestors = list(reversed(chain[: root_idx + 1]))  # root first, then down
 
     parts = []
     root = ancestors[0]
@@ -386,8 +410,27 @@ def execute_icm_stage(workspace_root: str, stage_folder_name: str) -> None:
             continue
         if any(k in fname.lower() for k in ("reference", "style", "config")):
             layer_3 += f"\n\n--- LAYER 3: REFERENCE MATERIAL ({fname}) ---\n{content}"
+        elif only_inputs is not None:
+            if fname in only_inputs:
+                layer_4 += f"\n\n--- LAYER 4: WORKING ARTIFACT ({fname}) ---\n{content}"
         elif any(k in fname.lower() for k in ("input", "artifact")):
             layer_4 += f"\n\n--- LAYER 4: WORKING ARTIFACT ({fname}) ---\n{content}"
+    if only_inputs is not None:
+        missing = [f for f in only_inputs if not os.path.exists(os.path.join(stage_path, f))]
+        if missing:
+            print(f"ERROR: --input file(s) not found in {stage_path}: {', '.join(missing)}")
+            sys.exit(1)
+    for apath in extra_artifacts or []:
+        content = _read(apath)
+        if not content:
+            print(f"ERROR: --artifact file not found or empty: {apath}")
+            sys.exit(1)
+        rel = os.path.relpath(os.path.abspath(apath), root).replace(os.sep, "/")
+        layer_4 += f"\n\n--- LAYER 4: WORKING ARTIFACT ({rel}) ---\n{content}"
+    n_l4 = layer_4.count("--- LAYER 4:")
+    print(f"[ICM] Inputs   : {n_l4} artifact(s) loaded"
+          + (" (explicit selection)" if only_inputs is not None
+             else " (all input/artifact files in stage folder)"))
 
     user_prompt = (
         "Execute your stage contract obligations now. "
@@ -436,12 +479,42 @@ def execute_icm_stage(workspace_root: str, stage_folder_name: str) -> None:
 # Entry point
 # ---------------------------------------------------------------------------
 
+def _usage() -> None:
+    print("Usage: python .icm-runner.py <workspace_root> <stage_folder_name> "
+          "[--input <file>]... [--artifact <path>]...")
+    print("")
+    print("  --input <file>     load ONLY the named file(s) from the stage folder as")
+    print("                     Layer 4 (default: every file whose name contains")
+    print("                     'input' or 'artifact'). Repeatable.")
+    print("  --artifact <path>  also load <path> (relative to CWD) as a Layer 4")
+    print("                     artifact, e.g. the previous stage's output. Repeatable.")
+    print("")
+    print("Examples:")
+    print("  python .icm-runner.py data-pipeline/workflows      01-ingest")
+    print("  python .icm-runner.py source-development/workflows 03-implementation \\")
+    print("      --input input_REQ-42_implementation.md")
+    print("  python .icm-runner.py source-development/workflows 04-validation \\")
+    print("      --input input_REQ-42_validation.md \\")
+    print("      --artifact source-development/workflows/03-implementation/output_03-implementation.md")
+
+
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
-        print("Usage: python .icm-runner.py <workspace_root> <stage_folder_name>")
-        print("")
-        print("Examples:")
-        print("  python .icm-runner.py source-development/workflows 03-implementation")
-        print("  python .icm-runner.py data-pipeline/workflows      01-ingest")
+    argv = sys.argv[1:]
+    if len(argv) < 2:
+        _usage()
         sys.exit(1)
-    execute_icm_stage(sys.argv[1], sys.argv[2])
+    ws, stage = argv[0], argv[1]
+    only, extra = None, []
+    i = 2
+    while i < len(argv):
+        if argv[i] == "--input" and i + 1 < len(argv):
+            only = (only or []) + [argv[i + 1]]
+            i += 2
+        elif argv[i] == "--artifact" and i + 1 < len(argv):
+            extra.append(argv[i + 1])
+            i += 2
+        else:
+            print(f"ERROR: unrecognised argument: {argv[i]}")
+            _usage()
+            sys.exit(1)
+    execute_icm_stage(ws, stage, only_inputs=only, extra_artifacts=extra)

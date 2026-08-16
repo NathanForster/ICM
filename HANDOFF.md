@@ -31,20 +31,23 @@ this one under `.ai/`. See [README.md](README.md).
 - **Project-creation flow:** `Templates/AI_PROJECT_CREATION_INSTRUCTIONS.md` — interview
   is one-question-at-a-time with options; deliverables are generated into the instance's
   `docs/` folder from SE-Deliverables definitions (never copied in); advanced overlay has
-  explicit merge rules. Validated by five fresh-agent dry runs (2026-08); the sys-eng
-  base converged on pass 3. The generic and advanced dry runs' findings are applied but
-  those two paths have not yet had a convergence re-run.
-- **Runner:** `.icm-runner.py` assembles context by ancestor walk (root Layer 0/1 →
-  workspace Layer 1a → stage Layer 2). A pre-2026-08 instance that copied the runner
-  should re-copy it — the old version silently dropped Layers 0/1 in nested layouts.
+  explicit merge rules. Validated by seven fresh-agent dry runs (2026-08): sys-eng
+  converged on pass 3; generic pass 2 resolved 12/12 prior findings; advanced pass 2
+  resolved 12/13 and caught that the runner fix was incomplete (now corrected). Both
+  second passes surfaced smaller second-order items, all applied.
+- **Runner:** `.icm-runner.py` assembles context by ancestor walk to the *topmost*
+  `ICM.md` (root Layer 0/1 → workspace Layer 1a → stage Layer 2) and takes
+  `--input`/`--artifact` for per-requirement runs. A pre-2026-08 instance that copied
+  the runner should re-copy it (and `run_source_dev.sh`, `check_requirements.py`,
+  `CLAUDE.md`) — the old version silently dropped Layers 0/1 in nested layouts.
 
 ---
 
 ## Open items
 
 - Methodology pilot in progress; templates not yet validated at organizational scale.
-- Convergence re-run of the generic-template and advanced-overlay dry runs (the sys-eng
-  path has one; these two do not yet).
+- A third generic/advanced dry-run pass would confirm the second-pass fixes converged
+  the way sys-eng did; not yet run.
 - `Examples/temp-logger/` was generated before the 2026-08 instruction changes; it is
   still valid but does not exercise the generic template, the overlay merge, or the
   `reference/` folder.

@@ -30,9 +30,9 @@ When implementing any **Baselined** requirement, you MUST follow this sequence.
    named `input_<REQ-ID>_implementation.md`.
    Include: design summary, files to be modified, key functions/classes, constraints.
 
-2. **Run stage 03:**
+2. **Run stage 03** (name the brief so earlier requirements' briefs are not loaded):
    ```
-   python .icm-runner.py source-development/workflows 03-implementation
+   python .icm-runner.py source-development/workflows 03-implementation        --input input_<REQ-ID>_implementation.md
    ```
 
 3. **Write the code** in `src/`.
@@ -42,9 +42,9 @@ When implementing any **Baselined** requirement, you MUST follow this sequence.
    named `input_<REQ-ID>_validation.md`.
    Include: lint result, logic review, edge cases tested, test results, overall PASS/FAIL.
 
-5. **Run stage 04:**
+5. **Run stage 04** (the validation contract checks against the stage-03 output, so pass it):
    ```
-   python .icm-runner.py source-development/workflows 04-validation
+   python .icm-runner.py source-development/workflows 04-validation        --input input_<REQ-ID>_validation.md        --artifact source-development/workflows/03-implementation/output_03-implementation.md
    ```
 
 6. **Update the requirements register** — change Status from `Baselined` to `Implemented`.
@@ -79,4 +79,4 @@ entry points (all relative to the project root):
 
 - **Data pipeline (ingest → transform → validate → load):** `bash run_data_pipeline.sh`
 - **Source-development pipeline (per requirement):**        `bash run_source_dev.sh <REQ-ID>`
-- **Isolated single stage:**                                `python .icm-runner.py <workspace/workflows> <stage>`
+- **Isolated single stage:**                                `python .icm-runner.py <workspace/workflows> <stage> [--input <brief>] [--artifact <path>]`

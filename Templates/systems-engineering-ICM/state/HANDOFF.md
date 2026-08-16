@@ -68,9 +68,9 @@ All commands assume `CWD = [project root]` unless noted.
 bash run_data_pipeline.sh
 # Source-development pipeline (single REQ)
 bash run_source_dev.sh <REQ-ID>
-# Isolated ICM stage
-python .icm-runner.py source-development/workflows 03-implementation
-python .icm-runner.py source-development/workflows 04-validation
+# Isolated ICM stage (name the brief; stage 04 also needs the stage-03 output)
+python .icm-runner.py source-development/workflows 03-implementation --input input_<REQ-ID>_implementation.md
+python .icm-runner.py source-development/workflows 04-validation --input input_<REQ-ID>_validation.md \n    --artifact source-development/workflows/03-implementation/output_03-implementation.md
 # Check requirements register consistency
 python check_requirements.py
 # --- end advanced-only block ---
@@ -126,13 +126,13 @@ A table or bullet list with file paths is ideal.]`
 
 1. Write `input_<REQ-ID>_implementation.md` in `source-development/workflows/03-implementation/`
 2. Review the brief against the stage contract (`03-implementation/CONTEXT.md`) and write
-   `output_03-implementation.md` — *advanced overlay:* `python .icm-runner.py source-development/workflows 03-implementation`;
+   `output_03-implementation.md` — *advanced overlay:* `python .icm-runner.py source-development/workflows 03-implementation --input input_<REQ-ID>_implementation.md`;
    *base instance:* the implementing agent/engineer performs the review and writes the output manually
 3. Write the code in `src/`
 4. Run lint + tests
 5. Write `input_<REQ-ID>_validation.md` in `source-development/workflows/04-validation/`
 6. Assess the brief against the stage contract (`04-validation/CONTEXT.md`) and write
-   `output_04-validation.md` — *advanced:* `python .icm-runner.py source-development/workflows 04-validation`;
+   `output_04-validation.md` — *advanced:* `python .icm-runner.py source-development/workflows 04-validation --input input_<REQ-ID>_validation.md --artifact source-development/workflows/03-implementation/output_03-implementation.md`;
    *base:* performed manually as in step 2
 7. Update register (Baselined → Implemented)
 8. Commit source + artifacts + register in one commit

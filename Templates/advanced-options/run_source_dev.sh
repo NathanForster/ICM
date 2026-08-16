@@ -117,7 +117,7 @@ echo -e "  Found: ${IMPL_INPUT}"
 # ── Step 2: Run stage 03-implementation ──────────────────────────────────────
 echo ""
 echo -e "${GREEN}[2/5] Running: source-development/workflows/03-implementation...${NC}"
-"$PYTHON" "$RUNNER_SCRIPT" "source-development/workflows" "03-implementation"
+"$PYTHON" "$RUNNER_SCRIPT" "source-development/workflows" "03-implementation" \n    --input "$(basename "$IMPL_INPUT")"
 
 pause "Stage 03 complete. Review output_03-implementation.md if needed."
 
@@ -162,7 +162,7 @@ echo -e "  Found: ${VAL_INPUT}"
 # ── Step 5: Run stage 04-validation ──────────────────────────────────────────
 echo ""
 echo -e "${GREEN}[5/5] Running: source-development/workflows/04-validation...${NC}"
-"$PYTHON" "$RUNNER_SCRIPT" "source-development/workflows" "04-validation"
+"$PYTHON" "$RUNNER_SCRIPT" "source-development/workflows" "04-validation" \n    --input "$(basename "$VAL_INPUT")" \n    --artifact "${IMPL_DIR}/output_03-implementation.md"
 
 pause "Stage 04 complete. Review output_04-validation.md if needed."
 

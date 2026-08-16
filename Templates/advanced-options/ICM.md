@@ -3,9 +3,11 @@
 This repository operates under the Interpretable Context Methodology (ICM). All code modifications, text processing, and data transformations must comply with the global mandates, development standards, and behavior constraints defined below.
 
 > **Overlay merge rule.** The base template's root `ICM.md` remains the project's Layer 0.
-> Append the sections below to it as **"Part B — Pipeline execution constraints"** (or
-> fold them into matching sections if the base already has them). Do not replace the base
-> file. Delete this block after merging.
+> Append the sections below to it, verbatim and in order, as **"Part B — Pipeline
+> execution constraints"** — do not fold them into the base file's own sections (Part A
+> stays untouched, Part B is recognisably the overlay). Replace the illustrative stack
+> line in §3 with the project's real stack. Do not replace the base file. Delete this
+> block after merging.
 
 ---
 

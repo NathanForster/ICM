@@ -38,3 +38,13 @@
 ## 4. Known Constraints
 
 - `[Standards, review requirements, or boundaries a new session must know.]`
+
+---
+
+## 5. Decisions
+
+This template has no separate decision log — record decisions here, newest first.
+
+| Date | Decision | Why | Revisit when |
+|------|----------|-----|--------------|
+| `[DATE]` | `[what was decided]` | `[reason]` | `[condition, or "—"]` |

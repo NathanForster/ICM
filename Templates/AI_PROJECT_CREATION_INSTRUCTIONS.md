@@ -61,11 +61,28 @@ overlay is additive; the base template stays authoritative for structure. Concre
 - **Pipeline stage folders** the overlay's blueprint refers to (`01-…/`, `02-…/`) must
   actually exist with a `CONTEXT.md` each — under the workspace that owns them (e.g.
   `data-pipeline/workflows/`), never loose at the root.
+- **If the project has no multi-stage data/content pipeline** (most sys-eng software
+  projects: their only stages are the source-development pair), **do not ship
+  `run_data_pipeline.sh`** — delete it and its lines in `CLAUDE.md` (Workspace
+  Commands) and `state/HANDOFF.md` §4, and draw the overlay's §2 topology as the
+  `03-implementation → 04-validation` pair driven by `run_source_dev.sh`. Do not repoint
+  `run_data_pipeline.sh` at those two folders — `run_source_dev.sh` already drives them,
+  with the correct `--input`/`--artifact` selection.
+- **Runner invocation:** the runner takes `--input <brief>` (load only that brief, not
+  every brief in the folder) and `--artifact <path>` (e.g. the stage-03 output for the
+  stage-04 run). `run_source_dev.sh`, `CLAUDE.md`, and HANDOFF §4 already use them;
+  keep them when tailoring.
 
 The overlay is designed around the sys-eng template but works with the generic one:
 the source-development pair (`03-implementation`/`04-validation`) simply lives under
 whichever workspace does implementation work (`production/` in the generic template),
 and `run_source_dev.sh`'s workspace argument is edited to match.
+
+> **Harness note.** Reading `Templates/advanced-options/README.md` (which Step 1 asks
+> for) can cause an agent harness that auto-loads `CLAUDE.md` files to inject
+> `advanced-options/CLAUDE.md` — "MANDATORY SOURCE-DEVELOPMENT PIPELINE … you MUST" —
+> into your context. That file governs *generated advanced instances*, not this creation
+> task. Ignore it here.
 
 Separately from the advanced choice, the interview (Step 2, Documentation Requirements)
 asks **which documents the project will produce**, offering the companion
@@ -119,6 +136,8 @@ Gather information about:
 - review process
 - validation requirements
 - deployment requirements
+- reusable document skeletons the project's own workflow needs (an article template,
+  a brief template, a report skeleton) — if any, they seed a `templates/` folder
 
 ### Organizational Structure
 - desired workspaces — offer the template's defaults; for any default workspace with no
@@ -217,15 +236,39 @@ metrics, state) include:
 The top-level `CONTEXT.md` routing table must list every workspace that exists —
 and only workspaces that exist. Routing and folder structure must never disagree.
 Both base templates ship the same three-part shape — **Active workspaces** table,
-**Registry workspaces** table, **Non-workspace folders and files** table — keep it.
-Folders that are *not* workspaces (`src/`, `docs/`, `docs/output/`, `reference/`,
-`templates/`, and any root scripts/config) go in the Non-workspace table, each with its
-owning workspace — so every top-level item is accounted for without pretending it is
-routable.
+**Registry workspaces** table, **Non-workspace folders and files** table — keep it, and
+keep each item where the template puts it: `state/` (and in sys-eng the other record
+folders) are registry rows; `src/`, `docs/`, `docs/status/`, `docs/output/`,
+`reference/`, `templates/`, root framework files, and any root scripts/config are
+Non-workspace rows, each with an owner — so every top-level item is accounted for
+without pretending it is routable. Rows marked *(when present)* are deleted if the
+project does not create the item; do not leave a row for a folder that does not exist.
+
+**Always create a root `README.md`** (neither template ships one, but both routing
+tables list it): what the project is in a paragraph, then pointers — start with
+`state/HANDOFF.md`, routing is in `CONTEXT.md`, constraints in `ICM.md`, deliverables in
+`docs/DELIVERABLES.md` (if present) — and, until the repository is initialised, the
+recommendation to `git init` first.
+
+**Where interview answers land when the template has no dedicated folder.** In the
+generic template: approval flows and escalation paths → root `ICM.md` (a short
+"Approvals and escalation" section) and each affected workspace's `AGENT.md`; coding /
+style / naming standards → the owning workspace's `ICM.md` (add a "Standards" section —
+the template's workspace `ICM.md` files only say "load applicable standards");
+decisions → `state/HANDOFF.md` §5 *Decisions* (the template ships the section). In the
+sys-eng template these have homes (`governance/`, `standards/`, `decisions/`).
+
+**Remove dangling references — a general rule.** Any sentence in a generated file that
+points at a folder, file, script, or document the instance does not have must be
+rewritten or deleted (workspace `AGENT.md`s that say "see `standards/`" in a project
+without one; `production/` text about "product claims" in a content project; the
+overlay's `run_data_pipeline.sh` in a project with no data pipeline). Grep the finished
+instance for every folder name that was *not* created.
 
 **Version control.** Do not run `git init` or make commits on the user's behalf unless
 asked; do recommend initialising the repository as the first thing after generation, and
-generate `.gitignore` regardless (see Required Deliverable).
+generate `.gitignore` regardless (see Required Deliverable). HANDOFF header fields that
+presume a commit (`Last commit: [SHA]`) read `none — repository not yet initialised`.
 
 **Base vs. advanced instances (sys-eng template).** The sys-eng template's files mention the advanced
 overlay's scripts (`.icm-runner.py`, `check_requirements.py`, `run_*.sh`) in two forms:
@@ -254,9 +297,10 @@ When applicable, generate:
   is selected
 - reference/ (third-party material the project depends on — see below; a sibling of
   docs/, never inside it) — both templates, when selected
-- templates/ — **optional**, either template; only when the project will have its
-  own reusable document skeletons (a content project's post template, a sys-eng
-  project's brief template). Do not create it empty.
+- templates/ — in the **sys-eng** template it is a shipped registry workspace (has a
+  README) — keep it and its routing row even if the interview named no skeletons yet
+  (mark the row *Dormant* if so); in the **generic** template create it only when the
+  Workflow Requirements answer named reusable skeletons, and never empty.
 - standards/  (with at least one concrete standard file if the interview supplied
   coding/naming/review rules — the README says "one standard per file") — **sys-eng
   template**; for a generic project, put coding/style rules in the owning workspace's
@@ -265,8 +309,11 @@ When applicable, generate:
   project records decisions in `state/HANDOFF.md` unless it asks for a log
 - governance/  (with an approval-matrix file if the interview supplied approval or
   escalation paths) — **sys-eng template**
-- src/ and src/tests/ (placeholder READMEs, since workspace files reference them) —
-  **sys-eng template**, or a generic project whose `production/` workspace writes code
+- src/ and src/tests/ (placeholder READMEs, since the sys-eng workspace files reference
+  them) — **sys-eng template only**. In the generic template code lives inside
+  `production/` (its `CONTEXT.md` says it is "the authoritative location for source
+  code"); create a root `src/` only if the user asks for one, and then say so in
+  `production/CONTEXT.md` and add the Non-workspace row.
 
 "Sys-eng template" items are not forbidden in a generic instance — add them if the
 interview calls for them — but do not create them by reflex; the generic template's
@@ -296,7 +343,8 @@ project uses it.
   Library version at creation: SE-Deliverables commit <sha> (<date>)
   ```
 
-  so a later session on the project can find the library even if nothing was chosen now.
+  as three bullets at the end of the section's existing bullet list, so a later session
+  on the project can find the library even if nothing was chosen now.
 
 **When any document was selected:**
 
@@ -333,9 +381,22 @@ project uses it.
   rather than leaving dangling pointers — the rule is general, not limited to these
   examples.
 - If the consolidated PDF set was selected: copy `SE-Deliverables/tools/docset/DOCSET.example.json`
-  to the instance root as `DOCSET.json` populated with the selected documents; create
-  `docs/output/README.md` from `SE-Deliverables/templates/docs-output/README.md`; append
-  the `.gitignore` snippet.
+  to the instance root as `DOCSET.json` populated with the selected documents (replace
+  its `_notes` with the project's own; living trackers are not leaves; the full RTVM may
+  be a leaf when the contract requires it delivered — set `landscape: true`); create
+  `docs/output/README.md` from `SE-Deliverables/templates/docs-output/README.md`
+  (rewrite or delete its bracketed non-reproducible-PDF paragraph — do not leave it);
+  append the `.gitignore` snippet. `docs/output/` is owned by the workspace that owns
+  the set (`documentation/` in sys-eng, `writing-room/` in generic).
+- If the stack includes a static-site generator (MkDocs, Jekyll, Hugo, …): its default
+  source folder is usually `docs/`, which ICM reserves for deliverables. Configure the
+  source directory explicitly (e.g. MkDocs `docs_dir:` into the owning workspace), add
+  its build output to `.gitignore`, and write the rule into the owning workspace's
+  `ICM.md`.
+- Templates whose index entry says "+ tool template" (the enhancement-request intake)
+  expect a copy of the request form in the tool where requesters write. If that tool is
+  not known at creation, leave a bracketed placeholder in the document's header, add a
+  backlog row (or HANDOFF next-step) to place it, and say so in the map.
 - If the third-party reference folder was selected: create `reference/README.md` at the
   **instance root, beside `docs/`** (not inside it) from
   `SE-Deliverables/templates/reference/README.md`, with only the sub-folders the project
@@ -356,14 +417,16 @@ project uses it.
   next agent knows the document deliberately differs from its governing template. Do not
   hunt for the sys-eng workflow's concepts in a project that lacks them.
 - Route deliverable work. In the **sys-eng** template: `documentation/` owns manuals,
-  summaries, DID documents, runbooks, and the enhancement-request intake;
-  `requirements/` owns the register, its RTVM counterpart, and the **backlog**;
+  summaries, DID documents, runbooks, and the enhancement-request intake — **except the
+  RTVM**, which although a DID belongs to `requirements/` because it is the register's
+  delivered form; `requirements/` owns the register, the RTVM, and the **backlog**;
   `verification-validation/` owns UAT findings, the status table, and live-testing
   records; `decisions/` owns the deviations register (it is a decision log). In the
-  **generic** template, `writing-room/` owns them all by default; a natural split when
-  the project wants one is `production/` for the backlog and any runbook, `community/`
-  for release notes and enhancement intake (they face users), `writing-room/` for
-  everything else. Add the chosen documents to the owning workspace's `CONTEXT.md` — or
+  **generic** template, `writing-room/` owns them all by default — and "use the
+  template defaults" from the user means exactly that; apply the natural split
+  (`production/` for the backlog and any runbook, `community/` for release notes and
+  enhancement intake, `writing-room/` for everything else) only when the user asks for
+  split ownership or names an owner. Add the chosen documents to the owning workspace's `CONTEXT.md` — or
   its `README.md` for registry workspaces, which have no CONTEXT.md — so routing stays
   deterministic. A folder whose files have different owners (`docs/status/` — backlog to
   `requirements/`, live-testing to `verification-validation/`) gets one

@@ -31,6 +31,19 @@ match a row in this table, escalate to the human operator rather than guessing.
 | `templates/` | Reusable document and artifact templates |
 | `verification-validation/` | Recording validation workflows and evidence |
 
+### Non-workspace folders and files (owned, not routed)
+
+Every top-level item that is not a workspace is listed here with its owner, so nothing
+is unaccounted for. Rows marked *(when present)* exist only if the project creates them.
+
+| Item | What it is | Owner |
+|------|-----------|-------|
+| `src/` (and `src/tests/`) | Source code and tests | `source-development/` |
+| `docs/` *(when present)* | Authored deliverables — see **Deliverable library**; `docs/status/` holds living trackers, `docs/output/` generated artifacts (gitignored except its README) | Per file, per `docs/DELIVERABLES.md` (default `documentation/`) |
+| `reference/` *(when present)* | Third-party material the project depends on but does not author — see **Deliverable library** | `documentation/` (manifest upkeep) |
+| Root `ICM.md`, `CONTEXT.md`, `README.md`, `.gitignore` | Project-level framework files | Edited only when the project's shape changes |
+| Root scripts / config *(advanced overlay)* — `.icm-runner.py`, `run_*.sh`, `check_requirements.py`, `CLAUDE.md`, `DOCSET.json` | Pipeline runner and build config — invoked by workspaces, not routed | `source-development/` (runner, stage scripts), `requirements/` (`check_requirements.py`), `documentation/` (`DOCSET.json`) |
+
 Always load local CONTEXT.md files (where present) before execution.
 
 ---
@@ -65,9 +78,11 @@ this section rather than repeating it.
 |----------|---------|
 | Credentials | `.env`, `*.key`, `*.pem`, `secrets.*` |
 | Runtime config | `settings.json`, user data files modified at runtime |
-| Build output | `dist/`, `build/`, `__pycache__/`, `*.pyc` |
+| Build / generated output | `dist/`, `build/`, `__pycache__/`, `*.pyc`, `docs/output/` (generated PDFs — its README is the one tracked file) |
 | Virtual environments | `.venv/`, `node_modules/`, `.conda/` |
 | IDE / local state | `*.local.json`, `.DS_Store`, `*.user`, `Thumbs.db` |
+| Editor backups | `*.bak`, `*~`, `*.swp` |
+| Committed on purpose | Pipeline `input_*.md` / `output_*.md` stage artifacts (advanced overlay) — they are the audit trail; `reference/` (third-party material, tracked) |
 
 The **only** committed credential file should be the example template (e.g. `.env.example`
 with placeholder values). Never commit real keys, tokens, or passwords.
