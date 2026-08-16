@@ -311,10 +311,14 @@ def execute_icm_stage(
     (``<root>/01-ingest/`` with ICM.md/CONTEXT.md at ``<root>``) and the
     systems-engineering layout (``<root>/source-development/workflows/03-…``
     with ICM.md/CONTEXT.md at ``<root>`` and at ``<root>/source-development/``).
-    The project root is the **topmost** ancestor containing ICM.md, bounded by
-    the repository root (a directory holding ``.git``) when one is met on the
-    way up. "Nearest" would be wrong: sys-eng active workspaces carry their own
-    ICM.md, and stopping there would silently drop the project-level layers.
+    The project root is the **topmost** ancestor in the contiguous run of
+    ancestors holding ICM.md that begins at the first ICM.md met on the way up
+    (once one is found, the walk stops at the first ancestor *without* one), and
+    never above a directory holding ``.git``. "Nearest" would be wrong: sys-eng
+    active workspaces carry their own ICM.md, and stopping there would silently
+    drop the project-level layers. The contiguity rule means a project that has
+    not been ``git init``-ed yet cannot be hijacked by an unrelated ICM.md higher
+    up the filesystem.
 
     The assembled system prompt (layers 0–2) and user prompt (layers 3–4)
     are sent to the active LLM.  The response is written to
@@ -359,20 +363,22 @@ def execute_icm_stage(
     # so "nearest ICM.md" would stop one level too low in nested layouts.
     stage_abs = os.path.abspath(stage_path)
     chain = []
+    root_idx = None
     cur = os.path.dirname(stage_abs)
     while True:
         chain.append(cur)
+        has_icm = os.path.exists(os.path.join(cur, "ICM.md"))
+        if has_icm:
+            root_idx = len(chain) - 1  # keep going — we want the highest one …
+        elif root_idx is not None:
+            break                      # … but only within a contiguous run
         if os.path.exists(os.path.join(cur, ".git")):
             break                      # repository root — do not climb further
         parent = os.path.dirname(cur)
         if parent == cur:
             break                      # filesystem root
         cur = parent
-    # chain[0] is the stage folder's parent; chain[-1] the highest dir visited.
-    root_idx = None
-    for i, d in enumerate(chain):
-        if os.path.exists(os.path.join(d, "ICM.md")):
-            root_idx = i               # keep going — we want the highest one
+    # chain[0] is the stage folder's parent; chain[root_idx] the project root.
     if root_idx is None:
         root_idx = 0                   # nothing found; warn below
     ancestors = list(reversed(chain[: root_idx + 1]))  # root first, then down
@@ -406,19 +412,23 @@ def execute_icm_stage(
         if fname == "CONTEXT.md" or fname.startswith("."):
             continue
         content = _read(os.path.join(stage_path, fname))
+        if only_inputs is not None and fname in only_inputs:
+            # An explicitly named brief is ALWAYS a Layer 4 artifact, whatever
+            # its name contains (a brief about the "config tool" must not be
+            # demoted to reference material by the keyword rule below).
+            if content:
+                layer_4 += f"\n\n--- LAYER 4: WORKING ARTIFACT ({fname}) ---\n{content}"
+            continue
         if not content:
             continue
         if any(k in fname.lower() for k in ("reference", "style", "config")):
             layer_3 += f"\n\n--- LAYER 3: REFERENCE MATERIAL ({fname}) ---\n{content}"
-        elif only_inputs is not None:
-            if fname in only_inputs:
-                layer_4 += f"\n\n--- LAYER 4: WORKING ARTIFACT ({fname}) ---\n{content}"
-        elif any(k in fname.lower() for k in ("input", "artifact")):
+        elif only_inputs is None and any(k in fname.lower() for k in ("input", "artifact")):
             layer_4 += f"\n\n--- LAYER 4: WORKING ARTIFACT ({fname}) ---\n{content}"
     if only_inputs is not None:
-        missing = [f for f in only_inputs if not os.path.exists(os.path.join(stage_path, f))]
-        if missing:
-            print(f"ERROR: --input file(s) not found in {stage_path}: {', '.join(missing)}")
+        bad = [f for f in only_inputs if not _read(os.path.join(stage_path, f))]
+        if bad:
+            print(f"ERROR: --input file(s) missing or empty in {stage_path}: {', '.join(bad)}")
             sys.exit(1)
     for apath in extra_artifacts or []:
         content = _read(apath)

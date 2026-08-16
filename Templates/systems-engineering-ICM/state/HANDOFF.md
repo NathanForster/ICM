@@ -70,7 +70,8 @@ bash run_data_pipeline.sh
 bash run_source_dev.sh <REQ-ID>
 # Isolated ICM stage (name the brief; stage 04 also needs the stage-03 output)
 python .icm-runner.py source-development/workflows 03-implementation --input input_<REQ-ID>_implementation.md
-python .icm-runner.py source-development/workflows 04-validation --input input_<REQ-ID>_validation.md \n    --artifact source-development/workflows/03-implementation/output_03-implementation.md
+python .icm-runner.py source-development/workflows 04-validation --input input_<REQ-ID>_validation.md \
+    --artifact source-development/workflows/03-implementation/output_03-implementation.md
 # Check requirements register consistency
 python check_requirements.py
 # --- end advanced-only block ---

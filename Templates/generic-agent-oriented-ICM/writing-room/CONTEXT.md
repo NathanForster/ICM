@@ -15,6 +15,6 @@ drafts, outlines, and published-piece records.
 ## Never
 
 - publish externally without human review
-- state product claims not verified against `production/` outputs or source material
+- state claims about the project's outputs that are not verified against the owning workspace's actual output or source material
 - modify unrelated workspaces
 - fabricate quotes, benchmarks, or citations

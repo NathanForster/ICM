@@ -71,7 +71,12 @@ overlay is additive; the base template stays authoritative for structure. Concre
 - **Runner invocation:** the runner takes `--input <brief>` (load only that brief, not
   every brief in the folder) and `--artifact <path>` (e.g. the stage-03 output for the
   stage-04 run). `run_source_dev.sh`, `CLAUDE.md`, and HANDOFF §4 already use them;
-  keep them when tailoring.
+  keep them when tailoring. Requirement IDs given to `run_source_dev.sh` must match the
+  register's form exactly (`REQ-01` if it zero-pads); tell the user so in HANDOFF §4.
+- **Stage-run context is only Layers 0/1/1a/2 plus the stage files.** The runner does not
+  load `standards/`, the register, or `state/`. Anything a stage must consider from those
+  goes into the brief; the sys-eng stage contracts are already worded that way — keep
+  them so.
 
 The overlay is designed around the sys-eng template but works with the generic one:
 the source-development pair (`03-implementation`/`04-validation`) simply lives under
@@ -128,8 +133,12 @@ Gather information about:
 - frameworks
 - databases
 - infrastructure
-- hardware interfaces (name vendor and model — this seeds the `reference/` manifest)
-- coding standards, naming conventions, lint/test tooling (this seeds `standards/`)
+- hardware interfaces (name vendor and model — seeds the `reference/` manifest *if the
+  reference folder is later selected*)
+- coding standards, naming conventions, lint/test tooling (seeds `standards/` in the
+  sys-eng template; the owning workspace's `ICM.md` *Standards* section in the generic)
+- review process — who reviews what (seeds `standards/` — a review standard — and the
+  `governance/` approval matrix in sys-eng; the workspace `AGENT.md`s in generic)
 
 ### Workflow Requirements
 - workflow stages
@@ -238,11 +247,16 @@ and only workspaces that exist. Routing and folder structure must never disagree
 Both base templates ship the same three-part shape — **Active workspaces** table,
 **Registry workspaces** table, **Non-workspace folders and files** table — keep it, and
 keep each item where the template puts it: `state/` (and in sys-eng the other record
-folders) are registry rows; `src/`, `docs/`, `docs/status/`, `docs/output/`,
-`reference/`, `templates/`, root framework files, and any root scripts/config are
-Non-workspace rows, each with an owner — so every top-level item is accounted for
-without pretending it is routable. Rows marked *(when present)* are deleted if the
-project does not create the item; do not leave a row for a folder that does not exist.
+folders, *including* `templates/`) are registry rows; `src/`, `docs/` (with
+`docs/status/` and `docs/output/` either folded into it or as their own rows — one row
+per owner is the only rule), `reference/`, generic `templates/`, root framework files,
+and any root scripts/config are Non-workspace rows, each with an owner — so every
+top-level item is accounted for without pretending it is routable. Rows marked *(when
+present)* are deleted if the project does not create the item, and the marker is
+stripped from rows that are kept; do not leave a row for a folder that does not exist.
+The instance's **Version Control** table is likewise pruned of rows for things the
+project does not have (`docs/output/` without the PDF set, pipeline artifacts without
+the overlay) — it is the *project's* canonical list once instantiated.
 
 **Always create a root `README.md`** (neither template ships one, but both routing
 tables list it): what the project is in a paragraph, then pointers — start with
@@ -266,9 +280,11 @@ overlay's `run_data_pipeline.sh` in a project with no data pipeline). Grep the f
 instance for every folder name that was *not* created.
 
 **Version control.** Do not run `git init` or make commits on the user's behalf unless
-asked; do recommend initialising the repository as the first thing after generation, and
-generate `.gitignore` regardless (see Required Deliverable). HANDOFF header fields that
-presume a commit (`Last commit: [SHA]`) read `none — repository not yet initialised`.
+asked; do recommend initialising the repository as the first thing after generation —
+and, in an advanced instance, *before the first stage run* (the runner bounds its
+context walk at `.git`) — and generate `.gitignore` regardless (see Required
+Deliverable). HANDOFF fields that presume a commit (`Last commit: [SHA]`, the *Recent
+work* table's SHA row) read `none — repository not yet initialised`.
 
 **Base vs. advanced instances (sys-eng template).** The sys-eng template's files mention the advanced
 overlay's scripts (`.icm-runner.py`, `check_requirements.py`, `run_*.sh`) in two forms:
@@ -343,8 +359,9 @@ project uses it.
   Library version at creation: SE-Deliverables commit <sha> (<date>)
   ```
 
-  as three bullets at the end of the section's existing bullet list, so a later session
-  on the project can find the library even if nothing was chosen now.
+  as three bullets at the end of the section (after its prose or its bullet list,
+  whichever the template has), so a later session on the project can find the library
+  even if nothing was chosen now.
 
 **When any document was selected:**
 
@@ -390,9 +407,12 @@ project uses it.
   the set (`documentation/` in sys-eng, `writing-room/` in generic).
 - If the stack includes a static-site generator (MkDocs, Jekyll, Hugo, …): its default
   source folder is usually `docs/`, which ICM reserves for deliverables. Configure the
-  source directory explicitly (e.g. MkDocs `docs_dir:` into the owning workspace), add
-  its build output to `.gitignore`, and write the rule into the owning workspace's
-  `ICM.md`.
+  source directory explicitly (e.g. MkDocs `docs_dir:` into the workspace that owns the
+  content), add its build output to `.gitignore`, and write the rule into the `ICM.md`
+  of *both* the content-owning and the build-owning workspace when they differ.
+- The enhancement-request intake's index name keeps the word TEMPLATE
+  (`docs/ENHANCEMENT-REQUEST-TEMPLATE-<P>.md`) on purpose — the file *is* the form
+  requesters copy. Do not rename it to look less like a leftover.
 - Templates whose index entry says "+ tool template" (the enhancement-request intake)
   expect a copy of the request form in the tool where requesters write. If that tool is
   not known at creation, leave a bracketed placeholder in the document's header, add a
@@ -406,6 +426,15 @@ project uses it.
   obtained"** if not — with bracketed filename/revision cells for the user to fill.
   `reference/` is tracked — do not add it to `.gitignore`. Add it to the Non-workspace
   folders table, owned by `documentation/` (sys-eng) or `writing-room/` (generic).
+- **DID documents may adapt *presentation*, not *content*.** A DID prescribes what a
+  document must contain and its section structure; where it also prescribes a medium
+  (the RTVM DID specifies a relational database) a Markdown table or a set of keyed
+  tables that carries every required field is an acceptable presentation — record it in
+  the map's Notes / adaptations column. Do not drop or merge DID-required sections.
+- **`reference/` sub-folders:** `vendor/` (equipment manuals, protocol guides),
+  `standards/` (published standards *and* contract or customer-imposed documentation
+  requirements — they govern the project the same way a standard does), `data/`
+  (reference datasets). Create only the ones the project needs.
 - **Adapting library templates to the project.** The library's templates were written
   against a systems-engineering workflow — the backlog assumes REQ IDs, code, and live
   testing; the enhancement intake assumes a UAT track; the runbook assumes an operations

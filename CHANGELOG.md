@@ -24,6 +24,25 @@ record the template version they were created from (see
   unchanged (flat pipelines).
 - **`check_requirements.py`** — `Captured`/blank rows are open, not "artifacts missing";
   stage `output_*.md` files are no longer reported as orphans; UTF-8 stdout forced.
+- **Third-pass fixes (generic + advanced re-runs)** — `run_source_dev.sh`, `CLAUDE.md`
+  and the sys-eng HANDOFF §4 shipped with **broken line continuations** from the
+  previous pass's edit (literal `\n` / lost backslashes — the script would have passed a
+  stray `n` argument and aborted); fixed and the script now proven end-to-end with a
+  stub runner. Runner: root detection no longer depends on `.git` (contiguous-`ICM.md`
+  rule — a not-yet-initialised project cannot be hijacked by a stray ancestor `ICM.md`);
+  a brief named by `--input` is always Layer 4 even if its name contains `config` /
+  `reference` / `style`; an empty `--input` file is an error. `run_source_dev.sh`
+  `find_brief` requires `_` after the ID (`REQ-1` no longer matches `REQ-10`) and warns on
+  multiple matches. Docs: generic workspace files lose their software slant ("product
+  claims", DoD "code passes lint") and gain a *Standards* section stub in each `ICM.md`;
+  stage-03 contract no longer asks the LLM to read `standards/` (the runner does not
+  load it — the brief carries the rules); overlay §4 gate wording covers both the
+  promotion and the `--artifact` mechanism; instructions: interview qualifiers for
+  `standards/`/`reference/`/review process, `templates/` is registry in sys-eng,
+  Version Control table pruned per instance, DID *presentation* may adapt (content may
+  not), `reference/standards/` holds contract documentation requirements, static-site
+  rule in both content- and build-owning workspaces, `git init` before the first stage
+  run, REQ-ID form must match the register.
 - **Advanced overlay merge guidance** — overlay `ICM.md`/`CONTEXT.md` now carry explicit
   merge rules (base template authoritative; overlay ICM appended as *Part B*; overlay
   CONTEXT §1–4 merged as a *Pipeline blueprint*, §5–6 discarded); creation instructions
@@ -54,11 +73,12 @@ record the template version they were created from (see
   a shipped registry row, RTVM ownership exception, `docs/output/` owner, "template
   defaults" means writing-room owns all, intake-tool-unknown case, harness `CLAUDE.md`
   auto-load trap; overlay `ICM.md` no longer offers "fold into matching sections".
-- **Dry-run methodology** — seven fresh-agent creation dry runs this month (three
-  sys-eng, two generic, two advanced+PDF-set) drove the above; the third sys-eng pass
-  converged (18/18 prior findings did not recur); the second generic pass resolved 12/12
-  prior findings and the second advanced pass 12/13 — the 13th being the runner fix that
-  was only half right, now corrected.
+- **Dry-run methodology** — nine fresh-agent creation dry runs this month (three each
+  of sys-eng, generic, advanced+PDF-set) drove the above. All three paths have now
+  converged: sys-eng pass 3 (18/18 prior findings resolved), generic pass 3 (21/21 pass-2
+  findings resolved), advanced pass 3 (14/14 pass-2 findings resolved — and it caught the
+  broken continuations that pass 2's own fix had introduced, which is exactly what a
+  third pass is for).
 - **`reference/` folder** — SE-Deliverables `templates/reference/` offered in the
   documentation checklist and scaffolded beside `docs/` when hardware, protocols, or a
   regulatory regime are named. `docs/` is authored; `reference/` is not.

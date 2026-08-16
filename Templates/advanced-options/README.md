@@ -24,7 +24,7 @@ The overlay is additive; the base template stays authoritative for structure.
 |--------------|-----------|
 | `ICM.md` | Append to the base root `ICM.md` as *Part B — Pipeline execution constraints*; replace the illustrative stack line with the project's real stack |
 | `CONTEXT.md` | Merge §1–4 (objective, topology, stage matrix, gate policy) into the base root `CONTEXT.md` as a *Pipeline blueprint* part with real stage names; **discard** §5–6 — the base file already has routing and version-control sections and its rows are the real ones |
-| `CLAUDE.md` | Copy to the instance root as-is |
+| `CLAUDE.md` | Copy to the instance root; delete the `run_data_pipeline.sh` line if that script is not shipped; keep the runner `--input`/`--artifact` invocations |
 | Scripts | Copy to the instance root; edit `run_data_pipeline.sh`'s per-stage blocks to the project's real stage folders — or **delete it** if the project has no multi-stage data pipeline (the source-development pair is driven by `run_source_dev.sh`); edit `run_source_dev.sh`'s workspace/dir variables if they differ; adjust `check_requirements.py` default paths if the register/brief folders differ from the sys-eng layout |
 | Stage folders | Live under the owning workspace (`<workspace>/workflows/0N-<stage>/CONTEXT.md`), never loose at the root |
 

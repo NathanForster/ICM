@@ -22,7 +22,9 @@ For the brief in this folder:
 - Verify the design addresses the requirement text as written in the register
 - Check that every file to be modified is consistent with the design summary
 - Identify unstated edge cases, error paths, or interface impacts
-- Confirm constraints do not conflict with existing standards in `standards/`
+- Confirm constraints do not conflict with the standards quoted in the brief (the brief
+  author copies the applicable rules from `standards/` into the brief — the runner does not
+  load `standards/`)
 
 ## Output Schema
 

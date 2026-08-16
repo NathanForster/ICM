@@ -32,7 +32,8 @@ When implementing any **Baselined** requirement, you MUST follow this sequence.
 
 2. **Run stage 03** (name the brief so earlier requirements' briefs are not loaded):
    ```
-   python .icm-runner.py source-development/workflows 03-implementation        --input input_<REQ-ID>_implementation.md
+   python .icm-runner.py source-development/workflows 03-implementation \
+       --input input_<REQ-ID>_implementation.md
    ```
 
 3. **Write the code** in `src/`.
@@ -44,7 +45,9 @@ When implementing any **Baselined** requirement, you MUST follow this sequence.
 
 5. **Run stage 04** (the validation contract checks against the stage-03 output, so pass it):
    ```
-   python .icm-runner.py source-development/workflows 04-validation        --input input_<REQ-ID>_validation.md        --artifact source-development/workflows/03-implementation/output_03-implementation.md
+   python .icm-runner.py source-development/workflows 04-validation \
+       --input input_<REQ-ID>_validation.md \
+       --artifact source-development/workflows/03-implementation/output_03-implementation.md
    ```
 
 6. **Update the requirements register** — change Status from `Baselined` to `Implemented`.

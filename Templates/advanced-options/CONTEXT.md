@@ -91,9 +91,12 @@ This pipeline enforces a **strict gate pattern** between stages.
    pauses automatically.
 2. A human operator inspects the output file in that stage's folder.
 3. The operator may edit the output directly to correct errors or adjust scope.
-4. On confirmation, the runner promotes the (possibly edited) output to become
-   the immutable `input_*.md` for the next stage — preventing hallucinated drift
-   across stage boundaries.
+4. On confirmation, the next stage consumes the (possibly edited) output — in a
+   data pipeline `run_data_pipeline.sh` promotes it to become the immutable
+   `input_*.md` of the next stage; in the source-development pair
+   `run_source_dev.sh` passes the stage-03 output to stage 04 via `--artifact`.
+   Either way the boundary is a file on disk, preventing hallucinated drift across
+   stages. *(Rewrite this step to describe only the mechanism your project uses.)*
 
 ---
 

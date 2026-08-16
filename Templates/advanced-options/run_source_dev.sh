@@ -11,6 +11,9 @@
 # Example:
 #   bash run_source_dev.sh REQ-42
 #
+# Give the ID exactly as it appears in the requirements register (REQ-01, not
+# REQ-1, if the register zero-pads) — briefs are matched on it.
+#
 # Steps guided by this script:
 #   1. Check / create the implementation brief  (03-implementation)
 #   2. Run stage 03-implementation
@@ -85,12 +88,20 @@ echo -e "${GREEN}[1/5] Checking for implementation brief...${NC}"
 
 find_brief() {
     # find_brief <dir> <kind> — match canonical and legacy artifact name forms,
-    # case-insensitively: REQ-42 / req-42 / req_42 / req42
-    find "$1" -maxdepth 1 \
-        \( -iname "*${REQ_HYPH}*$2*" \
-        -o -iname "*${REQ_UNDER}*$2*" \
-        -o -iname "*${REQ_NOSEP}*$2*" \) \
-        2>/dev/null | head -1
+    # case-insensitively: REQ-42 / req-42 / req_42 / req42. The ID must be
+    # followed by "_" (input_REQ-42_implementation.md) so that REQ-4 does not
+    # match REQ-42, and REQ-1 does not match REQ-10…REQ-19.
+    local matches
+    matches=$(find "$1" -maxdepth 1 \
+        \( -iname "*${REQ_HYPH}_*$2*" \
+        -o -iname "*${REQ_UNDER}_*$2*" \
+        -o -iname "*${REQ_NOSEP}_*$2*" \) \
+        2>/dev/null | sort)
+    if [ "$(echo "$matches" | grep -c .)" -gt 1 ]; then
+        echo -e "${YELLOW}  [WARN] More than one $2 brief matches ${REQ_ID}; using the first:${NC}" >&2
+        echo "$matches" | sed 's/^/         /' >&2
+    fi
+    echo "$matches" | head -1
 }
 
 IMPL_INPUT=$(find_brief "$IMPL_DIR" "implementation")
@@ -117,7 +128,8 @@ echo -e "  Found: ${IMPL_INPUT}"
 # ── Step 2: Run stage 03-implementation ──────────────────────────────────────
 echo ""
 echo -e "${GREEN}[2/5] Running: source-development/workflows/03-implementation...${NC}"
-"$PYTHON" "$RUNNER_SCRIPT" "source-development/workflows" "03-implementation" \n    --input "$(basename "$IMPL_INPUT")"
+"$PYTHON" "$RUNNER_SCRIPT" "source-development/workflows" "03-implementation" \
+    --input "$(basename "$IMPL_INPUT")"
 
 pause "Stage 03 complete. Review output_03-implementation.md if needed."
 
@@ -162,7 +174,9 @@ echo -e "  Found: ${VAL_INPUT}"
 # ── Step 5: Run stage 04-validation ──────────────────────────────────────────
 echo ""
 echo -e "${GREEN}[5/5] Running: source-development/workflows/04-validation...${NC}"
-"$PYTHON" "$RUNNER_SCRIPT" "source-development/workflows" "04-validation" \n    --input "$(basename "$VAL_INPUT")" \n    --artifact "${IMPL_DIR}/output_03-implementation.md"
+"$PYTHON" "$RUNNER_SCRIPT" "source-development/workflows" "04-validation" \
+    --input "$(basename "$VAL_INPUT")" \
+    --artifact "${IMPL_DIR}/output_03-implementation.md"
 
 pause "Stage 04 complete. Review output_04-validation.md if needed."
 

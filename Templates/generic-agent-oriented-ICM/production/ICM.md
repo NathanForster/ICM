@@ -16,6 +16,14 @@ Avoid:
 - archived projects
 - unnecessary global state
 
+## Standards
+
+<!-- Instantiation: record here the coding / style / naming / review rules from the
+interview that apply to this workspace (the generic template has no standards/ folder).
+Delete this comment. -->
+
+- [rule]
+
 ## Operational Scope
 
 Operate only within this workspace unless explicitly instructed.

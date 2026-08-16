@@ -3,8 +3,8 @@
 ## Inputs
 
 - Outreach and communication requests (announcement, post, reply, campaign)
-- Product facts and release information from `production/` outputs
-- Brand voice and messaging guidance from `standards/` (if present)
+- Facts about what the project has produced or released, from `production/` outputs (or `writing-room/` for content projects)
+- Brand voice and messaging guidance from this workspace's `ICM.md` Standards section (or `standards/` if the project has one)
 
 ## Outputs
 
@@ -17,7 +17,7 @@
 A community piece is Done when ALL of the following are true:
 
 - [ ] Message matches the brand voice and target channel conventions
-- [ ] Product claims verified against `production/` or documentation outputs
+- [ ] Every factual claim about the project's outputs verified against the owning workspace's actual output
 - [ ] No confidential, unreleased, or speculative information included
 - [ ] Reviewed by the human operator before external publication
 - [ ] Final copy saved in this workspace and workflow state updated

@@ -150,11 +150,12 @@ The AI should generate:
 - ICM.md files
 - CONTEXT.md files
 - AGENT.md files
-- standards
-- templates
-- workflow scaffolds
-- state tracking files
-- README files
+- state tracking files (`state/HANDOFF.md`)
+- README files (root and per workspace)
+- `.gitignore`
+- and, when the template or interview calls for them: standards, templates, workflow
+  scaffolds, `docs/` deliverables and their map — see
+  `AI_PROJECT_CREATION_INSTRUCTIONS.md` for which apply to which template
 - placeholder project artifacts
 
 Delivery depends on the environment:

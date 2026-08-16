@@ -4,7 +4,7 @@
 
 - Content requests (tutorial, documentation page, blog post)
 - Source material: specs, code, transcripts, prior articles
-- Style guides and audience definitions from `standards/` (if present)
+- Style guides and audience definitions from this workspace's `ICM.md` Standards section (or `standards/` if the project has one)
 
 ## Outputs
 

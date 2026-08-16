@@ -4,7 +4,7 @@
 
 - Implementation tasks and change requests
 - Requirements and acceptance criteria
-- Applicable standards from `standards/` (if present)
+- Applicable standards from this workspace's `ICM.md` Standards section (or `standards/` if the project has one)
 
 ## Outputs
 
@@ -17,8 +17,8 @@
 A production task is Done when ALL of the following are true:
 
 - [ ] Deliverable implements the stated requirement or task in full
-- [ ] Code passes lint and existing tests (where a toolchain exists)
-- [ ] New behaviour is covered by a test or a documented manual check
+- [ ] Output passes the project's checks — lint and tests for code; link checker, build, and validator for a site or document build (where a toolchain exists)
+- [ ] New behaviour is covered by a test or a documented manual check (adapt to the kind of production work this project does)
 - [ ] Assumptions and known limitations recorded with the deliverable
 - [ ] Workflow state updated and work committed to version control
 
