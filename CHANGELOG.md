@@ -78,7 +78,10 @@ record the template version they were created from (see
   strongly recommend the sequence `git init` → review the generated `.gitignore` against
   the actual stack → `git status` → first commit, and the generated root README carries
   it as a "First commit" block. A file committed once stays in history after it is
-  ignored.
+  ignored. Deck updated to match: *Getting Started* step 5 and the *Organizational
+  Memory* "Recommended practice" block now show `git init` → review `.gitignore` →
+  `git status` → `git add` → commit (step 5 also rebuilt as a single text item, fixing a
+  pre-existing overlap in the rendered PDF).
 - **Dry-run methodology** — nine fresh-agent creation dry runs this month (three each
   of sys-eng, generic, advanced+PDF-set) drove the above. All three paths have now
   converged: sys-eng pass 3 (18/18 prior findings resolved), generic pass 3 (21/21 pass-2
