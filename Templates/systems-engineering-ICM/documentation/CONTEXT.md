@@ -26,5 +26,6 @@ manuals, UAT records, etc.):
   library (`.ai/SE-Deliverables/`) — see `DIDs/GUIDE.md` there for DoD selection
   guidance and the document dependency map.
 - **Do not copy library files into this project.** Generate the deliverable documents
-  themselves in the project's `docs/` folder (e.g. `docs/SRS.md`), structured per the
-  governing DID or template.
+  themselves in the project's `docs/` folder, named `docs/<ACRONYM>-<PROJECT>.md`
+  (e.g. `docs/SRS-<PROJECT>.md`), structured per the governing DID or template. The map
+  of documents to their definitions is `docs/DELIVERABLES.md`.

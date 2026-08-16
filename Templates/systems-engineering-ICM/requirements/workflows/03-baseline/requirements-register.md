@@ -7,6 +7,7 @@
 
 | Status | Meaning |
 |--------|---------|
+| Captured | Recorded but not yet triaged/approved — not ready to implement (may be shown as a blank cell) |
 | Baselined | Approved and frozen — ready to implement |
 | Implemented | Code exists in `src/`; ICM artifacts written |
 | Verified | Tested or manually confirmed working |
@@ -16,7 +17,8 @@
 
 ## How to Use This Register
 
-1. **Add a requirement** — assign the next available REQ ID, set Status to `Baselined`.
+1. **Add a requirement** — assign the next available REQ ID; Status is `Captured` until
+   triaged and approved, then `Baselined`.
 2. **Start implementation** — leave Status as `Baselined` until both ICM artifacts exist.
 3. **After stage 04 runs** — change Status to `Implemented`; add source file(s) to Trace.
 4. **After tests confirm** — change Status to `Verified`.

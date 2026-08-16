@@ -8,4 +8,5 @@ Configuration baselines and change tracking.
 
 Identify CIs early, baseline deliberately, and log every baseline change with
 its approver. For formal CM process requirements see the CMP DID
-(DI-SESS-80858D) digest in the ICM templates repository.
+(DI-SESS-80858D) digest in the companion SE-Deliverables library
+(`.ai/SE-Deliverables/DIDs/`).

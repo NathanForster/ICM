@@ -19,6 +19,11 @@ The resulting project should:
 
 ## Step 1 — Load Core Context
 
+**Placeholders used in these instructions:** `<P>` (also written `<PROJECT>`) is the
+project name exactly as the user gives it, used verbatim in file names — e.g. project
+`bench-thermal-logger` → `docs/SRS-bench-thermal-logger.md`. Do not abbreviate it in
+file names (an abbreviation may be coined *inside* documents for prose).
+
 Ask which template to use. Templates are folder names within the `Templates/` folder that end in `-ICM`:
 
 - `generic-agent-oriented-ICM/` — general-purpose structure for content, software, business operations, and documentation work
@@ -41,11 +46,12 @@ available at `.ai/SE-Deliverables/` (clone from
 https://github.com/NathanForster/SE-Deliverables if not) — see the Deliverables section
 below.
 
-Read:
+Read, from the **selected template** (no instance exists yet):
 - `ICM.md`
 - top-level `CONTEXT.md`
-- local workspace `CONTEXT.md`
-- local `AGENT.md`
+- every active workspace's `CONTEXT.md` and `AGENT.md` (and its `README.md`)
+- every registry workspace's `README.md` and any starter artifact beside it
+- the advanced overlay's `README.md` (to describe it accurately when asking)
 
 ---
 
@@ -74,7 +80,8 @@ Gather information about:
 - frameworks
 - databases
 - infrastructure
-- hardware interfaces
+- hardware interfaces (name vendor and model — this seeds the `reference/` manifest)
+- coding standards, naming conventions, lint/test tooling (this seeds `standards/`)
 
 ### Workflow Requirements
 - workflow stages
@@ -83,7 +90,9 @@ Gather information about:
 - deployment requirements
 
 ### Organizational Structure
-- desired workspaces
+- desired workspaces — offer the template's defaults; for any default workspace with no
+  work in this project (e.g. `sales/` for an internal tool), keep it but mark it
+  **Dormant** in the routing table rather than deleting it
 - ownership boundaries
 - approval flows
 - escalation paths
@@ -110,7 +119,8 @@ for what to do with the answer.
   equipment manuals, protocol specs, standards the system implements, and reference
   datasets. Offer this whenever the Technical Stack answers named hardware interfaces,
   external protocols, or a regulatory regime, even if the user did not think to ask.
-- release notes / other (free-form)
+- **Release notes / other (free-form)** — the one item with no library definition; it
+  is listed so the user can name project documents the library does not cover.
 
 ### Compliance and Governance
 - regulatory requirements
@@ -180,11 +190,17 @@ separate "Non-workspace folders" table beneath the routing table, each with its 
 — so every top-level folder is accounted for without pretending it is routable.
 
 **Base vs. advanced instances.** The sys-eng template's files mention the advanced
-overlay's scripts (`.icm-runner.py`, `check_requirements.py`, `run_*.sh`) alongside a
-"base instance" alternative. When generating a **base** instance, delete the
-advanced-only lines and blocks (they are marked) and keep the manual alternative, so the
-instance never tells an agent to run a script that does not exist. When generating an
-**advanced** instance, keep both.
+overlay's scripts (`.icm-runner.py`, `check_requirements.py`, `run_*.sh`) in two forms:
+(a) **one deletable block** in `state/HANDOFF.md` §4, fenced with `ADVANCED OVERLAY ONLY`
+comments; (b) **inline "(advanced) / (base)" alternative pairs** everywhere else
+(`source-development/CONTEXT.md` and `AGENT.md`, `workflows/README.md`,
+`requirements/CONTEXT.md` and `README.md`, the register, the traceability matrix,
+HANDOFF §7). When generating a **base** instance: delete the HANDOFF block, and in every
+inline pair keep only the base alternative — rewrite the sentence so it no longer
+mentions the script, or states plainly "there is no `<script>` in this project". Then
+grep the instance for `icm-runner|check_requirements|run_source_dev` and confirm every
+surviving hit is a *negation*, not an instruction. When generating an **advanced**
+instance, keep both branches.
 
 ---
 
@@ -217,12 +233,14 @@ project uses it.
 
 **Always, regardless of the checklist answer:**
 
-- Write a standing pointer in the instance's top-level `CONTEXT.md`:
+- The template's top-level `CONTEXT.md` already contains a `## Deliverable library`
+  section. **Keep it and add these lines to it** (merge — do not replace, do not
+  duplicate the heading):
 
   ```
-  ## Deliverable library
-  Companion: `.ai/SE-Deliverables/` (https://github.com/NathanForster/SE-Deliverables)
-  Selected for this project: <list, or "none at creation — add via SE-Deliverables/templates/README.md">
+  Selected for this project: <list with paths, or "none at creation — add via SE-Deliverables/templates/README.md">
+  Map and status: `docs/DELIVERABLES.md`
+  Library version at creation: SE-Deliverables commit <sha> (<date>)
   ```
 
   so a later session on the project can find the library even if nothing was chosen now.
@@ -232,19 +250,28 @@ project uses it.
 - **Do NOT copy DID digests or templates into the project instance.** They stay in
   SE-Deliverables and are loaded from there when generating or validating a deliverable.
 - **Create the deliverable documents themselves in the instance's `docs/` folder**, one
-  per selected item, named per the template/digest header (e.g. `docs/SRS-<P>.md`,
-  `docs/USERS-MANUAL-<P>.md`; living trackers in `docs/status/`). Populate each from
-  its digest/template with the project's identity filled in and remaining sections
-  scaffolded — do not leave a bare filename.
+  per selected item. **Names come from `SE-Deliverables/templates/README.md`'s index**
+  (its "Instantiate as" column) — templates repeat the name in their header comment; DID
+  digests do not, so for a DID use `docs/<ACRONYM>-<P>.md` (e.g. `docs/SRS-<P>.md`).
+  Living trackers go in `docs/status/`.
+  **"Scaffolded" means:** the document's title block / identification is filled in with
+  the project's identity; every top-level section required by the digest or template is
+  present as a heading; sections that clearly do not apply say so in one line (DIDs
+  require the statement); the `<!-- -->` instantiation guidance is **removed** (keep at
+  most a short note pointing at the governing definition). Do not attempt to write final
+  content at creation — do not leave a bare filename either.
 - **Create `docs/DELIVERABLES.md`** from `SE-Deliverables/templates/DELIVERABLES-TEMPLATE.md`
   — one row per selected document: file → governing library item (path) → owner
   workspace → status. This is the authoritative map for future agents. Record library
   items considered but not selected, with the reason.
-- For DoD deliverables, use `SE-Deliverables/DIDs/GUIDE.md` to check dependency order
-  (e.g. OCD before SSS before SRS) and to catch missing companions (an SRS with external
-  interfaces usually wants an IRS). **If the GUIDE recommends a document the user did not
-  select, honour the user's selection** — do not silently add it — and record the
-  recommendation in `docs/DELIVERABLES.md`'s "Not selected" table as a flagged candidate.
+- **Whenever any DID is selected** (whether or not the project is DoD/contract), use
+  `SE-Deliverables/DIDs/GUIDE.md` to check dependency order (e.g. OCD before SSS before
+  SRS) and to catch missing companions (an SRS with external interfaces usually wants an
+  IRS). Its "read the CI Documentation Recommendation first" note applies to multi-DID
+  selections; for one or two DIDs, just check their rows. **If the GUIDE recommends a
+  document the user did not select, honour the user's selection** — do not silently add
+  it — and record the recommendation in `docs/DELIVERABLES.md`'s "Not selected" table as
+  a flagged candidate.
 - Templates that reference other library items (the live-testing checklist assumes a
   generated summary and the consolidated PDF set; the backlog references a deviations
   register) carry those references as conditional. When instantiating, **remove
@@ -256,10 +283,12 @@ project uses it.
 - If the third-party reference folder was selected: create `reference/README.md` at the
   **instance root, beside `docs/`** (not inside it) from
   `SE-Deliverables/templates/reference/README.md`, with only the sub-folders the project
-  needs (`vendor/`, `standards/`, `data/`); seed the manifest with any hardware, protocol,
-  or standard the interview named, as "Not yet obtained" rows. `reference/` is tracked —
-  do not add it to `.gitignore`. Add it to the Non-workspace folders table, owned by
-  `documentation/` (sys-eng) or `writing-room/` (generic).
+  needs (`vendor/`, `standards/`, `data/`), each holding a `.gitkeep` so the empty
+  folder survives git; seed the manifest with any hardware, protocol, or standard the
+  interview named — status **"Pending placement"** if the user has the file, **"Not yet
+  obtained"** if not — with bracketed filename/revision cells for the user to fill.
+  `reference/` is tracked — do not add it to `.gitignore`. Add it to the Non-workspace
+  folders table, owned by `documentation/` (sys-eng) or `writing-room/` (generic).
 - Route deliverable work. In the sys-eng template: `documentation/` owns manuals,
   summaries, DID documents, runbooks, and the enhancement-request intake;
   `requirements/` owns the register, its RTVM counterpart, and the **backlog**;
@@ -267,7 +296,10 @@ project uses it.
   records; `decisions/` owns the deviations register (it is a decision log). In the
   generic template, `writing-room/` owns them all unless the user says otherwise. Add the
   chosen documents to the owning workspace's `CONTEXT.md` — or its `README.md` for
-  registry workspaces, which have no CONTEXT.md — so routing stays deterministic.
+  registry workspaces, which have no CONTEXT.md — so routing stays deterministic. A
+  folder whose files have different owners (`docs/status/` — backlog to `requirements/`,
+  live-testing to `verification-validation/`) gets one Non-workspace-folders row per
+  owner, or one row naming both; either is fine as long as every file is accounted for.
 
 ---
 
@@ -276,10 +308,15 @@ project uses it.
 The final deliverable is a fully generated folder structure with populated example
 markdown files.
 
-**Record the template version:** in the instance's top-level `CONTEXT.md`, note the
-ICM templates repository commit (`git -C <templates-repo> rev-parse --short HEAD`)
-and date the instance was generated from, so future agents can diff against the
-templates that produced it.
+**Always create `.gitignore`** from the template's canonical Version Control table (in
+the top-level `CONTEXT.md`), even when no deliverable snippet applies — the template's
+own rules and the "`reference/` is tracked" statement presuppose one exists.
+
+**Record the template versions:** in the instance's top-level `CONTEXT.md`, note the
+ICM templates repository commit (`git -C <templates-repo> rev-parse --short HEAD`) and
+date the instance was generated from, and — if any deliverable was selected — the
+SE-Deliverables commit likewise (also recorded in `docs/DELIVERABLES.md`), so future
+agents can diff against the definitions that produced it.
 
 The delivery method depends on the environment:
 

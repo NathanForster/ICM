@@ -53,4 +53,5 @@ For projects with contractual traceability requirements, the DoD counterpart of 
 matrix is the **RTVM** (Requirements Traceability Verification Matrix, DI-MGMT-82133A).
 A digest is available in the companion SE-Deliverables library at
 `.ai/SE-Deliverables/DIDs/RTVM-DI-MGMT-82133A.md`. If the contract requires an
-RTVM, generate it as `docs/RTVM.md` per that digest rather than extending this matrix.
+RTVM, generate it as `docs/RTVM-<PROJECT>.md` per that digest rather than extending
+this matrix.
