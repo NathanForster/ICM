@@ -81,7 +81,10 @@ record the template version they were created from (see
   ignored. Deck updated to match: *Getting Started* step 5 and the *Organizational
   Memory* "Recommended practice" block now show `git init` → review `.gitignore` →
   `git status` → `git add` → commit (step 5 also rebuilt as a single text item, fixing a
-  pre-existing overlap in the rendered PDF).
+  pre-existing overlap in the rendered PDF). Slides 6 and 12 corrected: the DID library
+  belongs to SE-Deliverables, not the advanced overlay; slide 6's sys-eng column now
+  lists `requirements/` as an active workspace and adds `configuration-management/` to
+  the support directories, matching the shipped template.
 - **Dry-run methodology** — nine fresh-agent creation dry runs this month (three each
   of sys-eng, generic, advanced+PDF-set) drove the above. All three paths have now
   converged: sys-eng pass 3 (18/18 prior findings resolved), generic pass 3 (21/21 pass-2
