@@ -274,8 +274,11 @@ project uses it.
   a flagged candidate.
 - Templates that reference other library items (the live-testing checklist assumes a
   generated summary and the consolidated PDF set; the backlog references a deviations
-  register) carry those references as conditional. When instantiating, **remove
-  references to items the user did not select** rather than leaving dangling pointers.
+  register; the User's Manual names a Programmer's Manual companion; HANDOFF's path table
+  names credential files) carry those references as conditional. When instantiating,
+  **remove references to items the user did not select or the project does not have**
+  rather than leaving dangling pointers — the rule is general, not limited to these
+  examples.
 - If the consolidated PDF set was selected: copy `SE-Deliverables/tools/docset/DOCSET.example.json`
   to the instance root as `DOCSET.json` populated with the selected documents; create
   `docs/output/README.md` from `SE-Deliverables/templates/docs-output/README.md`; append
@@ -312,11 +315,12 @@ markdown files.
 the top-level `CONTEXT.md`), even when no deliverable snippet applies — the template's
 own rules and the "`reference/` is tracked" statement presuppose one exists.
 
-**Record the template versions:** in the instance's top-level `CONTEXT.md`, note the
-ICM templates repository commit (`git -C <templates-repo> rev-parse --short HEAD`) and
-date the instance was generated from, and — if any deliverable was selected — the
-SE-Deliverables commit likewise (also recorded in `docs/DELIVERABLES.md`), so future
-agents can diff against the definitions that produced it.
+**Record the template versions:** add a `## Template provenance` section at the end of
+the instance's top-level `CONTEXT.md` with the ICM templates repository commit
+(`git -C <templates-repo> rev-parse --short HEAD`) and date the instance was generated
+from, and — if any deliverable was selected — the SE-Deliverables commit likewise (that
+one is also written into the Deliverable-library section and `docs/DELIVERABLES.md`), so
+future agents can diff against the definitions that produced it.
 
 The delivery method depends on the environment:
 

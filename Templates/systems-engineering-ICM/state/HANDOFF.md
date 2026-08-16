@@ -22,8 +22,8 @@ its deployment target, and its primary user.]`
 | **Source root** | `[ABSOLUTE PATH]/src/` |
 | **Venv Python** | `[ABSOLUTE PATH]/src/.venv/Scripts/python` (Windows) |
 | **Venv Python** | `[ABSOLUTE PATH]/src/.venv/bin/python` (Linux/macOS) |
-| **Credentials (NEVER COMMIT)** | `[ABSOLUTE PATH]/src/config/.env` |
-| **Credentials example (safe)** | `[ABSOLUTE PATH]/src/config/.env.example` |
+| **Credentials (NEVER COMMIT)** | `[ABSOLUTE PATH]/src/config/.env` *(delete this row if the project has no credentials)* |
+| **Credentials example (safe)** | `[ABSOLUTE PATH]/src/config/.env.example` *(likewise)* |
 | **Requirements register** | `[ABSOLUTE PATH]/requirements/workflows/03-baseline/requirements-register.md` |
 | **Traceability matrix** | `[ABSOLUTE PATH]/requirements/workflows/04-trace/traceability-matrix.md` |
 | **ICM impl briefs** | `[ABSOLUTE PATH]/source-development/workflows/03-implementation/` |
