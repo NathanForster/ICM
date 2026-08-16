@@ -4,6 +4,42 @@ Notable changes to the ICM templates library. Generated project instances should
 record the template version they were created from (see
 `Templates/AI_PROJECT_CREATION_INSTRUCTIONS.md`).
 
+## 2026-08
+
+- **Runner context bug fixed** (`advanced-options/.icm-runner.py`) — Layer 0/1 were read
+  from the *workspace_root* argument (`source-development/workflows`), which has no
+  `ICM.md`/`CONTEXT.md`, so in every sys-eng advanced instance the global constraints and
+  project blueprint never reached the LLM. The runner now walks up from the stage folder
+  to the nearest ancestor holding `ICM.md`, loads root Layer 0/1 there, adds intermediate
+  workspace `ICM.md`/`CONTEXT.md` as **Layer 1a: LOCAL CONTEXT**, then the stage
+  `CONTEXT.md`. Verified against both the nested sys-eng layout and the flat pipeline layout.
+  Exposed by a fresh-agent dry run of the advanced overlay.
+- **Advanced overlay merge guidance** — overlay `ICM.md`/`CONTEXT.md` now carry explicit
+  merge rules (base template authoritative; overlay ICM appended as *Part B*; overlay
+  CONTEXT §1–4 merged as a *Pipeline blueprint*, §5–6 discarded); creation instructions
+  and the overlay README spell out the same rules plus script edits (`run_data_pipeline.sh`
+  per-stage blocks, `run_source_dev.sh` workspace argument, `check_requirements.py` paths).
+  Fixed `run_pipeline.sh` → `run_data_pipeline.sh` in the gate policy; "Context Isolation"
+  scoped to stage runs; illustrative stack line marked; `CLAUDE.md` commit-gate step
+  corrected (5, not 4); `check_requirements.py` accepts `Captured`/blank status and forces
+  UTF-8 stdout so it runs on a default Windows console.
+- **Generic template gains the same `CONTEXT.md` shape as sys-eng** — Active / Registry /
+  Non-workspace tables, a `## Deliverable library` heading (so the creation flow's merge
+  rule applies to both bases), `state/` classed as registry, and the canonical Version
+  Control table extended (`docs/output/`, static-site output, editor backups).
+- **Creation instructions** — sys-eng-only supporting systems labelled (standards,
+  decisions, governance, src; templates/ optional); explicit permission to adapt library
+  templates' structure to a non-sys-eng workflow while keeping naming/placement/map
+  conventions; generic-template ownership split for deliverables; git-init recommended
+  not run; Step 1 read-list includes workspace `ICM.md` and the overlay files; root
+  scripts/config get one Non-workspace row.
+- **Dry-run methodology** — five fresh-agent creation dry runs this month (three sys-eng,
+  one generic, one advanced+PDF-set) drove the above; the third sys-eng pass converged
+  (18/18 prior findings did not recur).
+- **`reference/` folder** — SE-Deliverables `templates/reference/` offered in the
+  documentation checklist and scaffolded beside `docs/` when hardware, protocols, or a
+  regulatory regime are named. `docs/` is authored; `reference/` is not.
+
 ## 2026-07
 
 - **DIDs library moved to companion repo** — `Templates/advanced-options/DIDs/` (18 DID

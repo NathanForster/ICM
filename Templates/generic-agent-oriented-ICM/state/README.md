@@ -8,4 +8,7 @@ Persistent operational memory — survives AI session boundaries.
 
 `HANDOFF.md` should be committed to the repository, updated at the end of every
 working session, and read at the start of every new session before any other action.
-Replace all `[PLACEHOLDER]` values when creating a project instance.
+
+<!-- Instantiation: replace all `[PLACEHOLDER]` values in HANDOFF.md, and rewrite this
+README to describe what THIS project keeps in state/ (add rows for anything beyond
+HANDOFF.md, e.g. a session log). Delete this comment. -->

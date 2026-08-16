@@ -288,15 +288,26 @@ def _send_request(
 def execute_icm_stage(workspace_root: str, stage_folder_name: str) -> None:
     """Run one ICM pipeline stage.
 
-    Assembles the four-layer context hierarchy:
+    Assembles the layered context hierarchy by walking UP from the stage
+    folder to the project root, collecting every ICM.md / CONTEXT.md found:
 
-        Layer 0  —  ICM.md          (workspace root)
-        Layer 1  —  CONTEXT.md      (workspace root)
-        Layer 2  —  CONTEXT.md      (stage folder)
+        Layer 0  —  ICM.md          (project root — global framework constraints)
+        Layer 1  —  CONTEXT.md      (project root — routing / blueprint)
+        Layer 1a —  ICM.md / CONTEXT.md at each intermediate level between root
+                    and the stage folder (e.g. the owning workspace's), so a
+                    workspace's local context authority is honoured
+        Layer 2  —  CONTEXT.md      (stage folder — the stage contract)
         Layer 3  —  reference files (stage folder, filenames containing
                                      'reference', 'style', or 'config')
         Layer 4  —  input artifacts  (stage folder, filenames containing
                                      'input' or 'artifact')
+
+    The walk supports both layouts the overlay is used with: a flat pipeline
+    (``<root>/01-ingest/`` with ICM.md/CONTEXT.md at ``<root>``) and the
+    systems-engineering layout (``<root>/source-development/workflows/03-…``
+    with ICM.md/CONTEXT.md at ``<root>`` and at ``<root>/source-development/``).
+    The project root is the nearest ancestor containing ICM.md (or, failing
+    that, the ``workspace_root`` argument's own ancestor chain top).
 
     The assembled system prompt (layers 0–2) and user prompt (layers 3–4)
     are sent to the active LLM.  The response is written to
@@ -306,7 +317,9 @@ def execute_icm_stage(workspace_root: str, stage_folder_name: str) -> None:
     chunks the largest ``.txt`` input file and consolidates the results.
 
     Args:
-        workspace_root:     Path to the workspace root that contains ``ICM.md``.
+        workspace_root:     Path to the folder that CONTAINS the stage folder
+                            (e.g. ``source-development/workflows``). It need not
+                            itself hold ICM.md — the runner walks up to find it.
         stage_folder_name:  Name of the stage sub-folder (e.g. ``"03-implementation"``).
     """
     provider, client, model = _detect_provider()
@@ -325,14 +338,42 @@ def execute_icm_stage(workspace_root: str, stage_folder_name: str) -> None:
                 return fh.read().strip()
         return ""
 
-    # Assemble layered system prompt (layers 0–2)
+    # Walk up from the stage folder's parent to the project root, collecting
+    # context files. Root = nearest ancestor holding ICM.md; stop there.
+    stage_abs = os.path.abspath(stage_path)
+    ancestors = []
+    cur = os.path.dirname(stage_abs)
+    while True:
+        ancestors.append(cur)
+        if os.path.exists(os.path.join(cur, "ICM.md")):
+            break
+        parent = os.path.dirname(cur)
+        if parent == cur:
+            break
+        cur = parent
+    ancestors.reverse()  # root first, then down toward the stage folder
+
     parts = []
-    l0 = _read(os.path.join(workspace_root, "ICM.md"))
-    l1 = _read(os.path.join(workspace_root, "CONTEXT.md"))
-    l2 = _read(os.path.join(stage_path,     "CONTEXT.md"))
+    root = ancestors[0]
+    l0 = _read(os.path.join(root, "ICM.md"))
+    l1 = _read(os.path.join(root, "CONTEXT.md"))
     if l0: parts.append(f"### LAYER 0: GLOBAL FRAMEWORK CONSTRAINTS (ICM.md)\n{l0}")
     if l1: parts.append(f"### LAYER 1: PROJECT BLUEPRINT (CONTEXT.md)\n{l1}")
+    if not l0 and not l1:
+        print("[ICM] WARNING: no ICM.md/CONTEXT.md found in any ancestor of the "
+              "stage folder — layers 0/1 are empty. Is this stage inside an ICM project?")
+
+    # Intermediate levels (e.g. the owning workspace) — local context authority
+    for level in ancestors[1:]:
+        for fname, label in (("ICM.md", "ICM.md"), ("CONTEXT.md", "CONTEXT.md")):
+            txt = _read(os.path.join(level, fname))
+            if txt:
+                rel = os.path.relpath(level, root).replace(os.sep, "/")
+                parts.append(f"### LAYER 1a: LOCAL CONTEXT ({rel}/{label})\n{txt}")
+
+    l2 = _read(os.path.join(stage_path, "CONTEXT.md"))
     if l2: parts.append(f"### LAYER 2: ACTIVE STAGE CONTRACT (stage CONTEXT.md)\n{l2}")
+    print(f"[ICM] Context  : {len(parts)} layer(s) loaded from {root}")
     system_prompt = "\n\n".join(parts)
 
     # Assemble user prompt from stage files (layers 3–4)

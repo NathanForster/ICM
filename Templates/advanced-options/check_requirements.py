@@ -34,6 +34,16 @@ import re
 import sys
 from pathlib import Path
 
+# The report uses box-drawing and emoji glyphs; a default Windows console
+# (cp1252) would raise UnicodeEncodeError on the very first print. Reconfigure
+# stdout to UTF-8 (Python 3.7+) so the checker runs anywhere without needing
+# PYTHONUTF8=1 to be set by the caller.
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:  # pragma: no cover — never fatal
+        pass
+
 # ---------------------------------------------------------------------------
 # Configuration defaults
 # ---------------------------------------------------------------------------
@@ -44,8 +54,8 @@ DEFAULT_REGISTER  = _ROOT / "requirements" / "workflows" / "03-baseline" / "requ
 DEFAULT_IMPL_DIR  = _ROOT / "source-development" / "workflows" / "03-implementation"
 DEFAULT_VAL_DIR   = _ROOT / "source-development" / "workflows" / "04-validation"
 
-ALLOWED_STATUSES  = {"Baselined", "Implemented", "Verified", "Superseded"}
-OPEN_STATUSES     = {"Baselined", "Implemented"}
+ALLOWED_STATUSES  = {"Captured", "", "Baselined", "Implemented", "Verified", "Superseded"}
+OPEN_STATUSES     = {"Captured", "", "Baselined", "Implemented"}
 CLOSED_STATUSES   = {"Verified", "Superseded"}
 
 # ---------------------------------------------------------------------------

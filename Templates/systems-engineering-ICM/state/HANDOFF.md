@@ -62,7 +62,8 @@ All commands assume `CWD = [project root]` unless noted.
 # Run the application
 [run command]
 
-# --- ADVANCED OVERLAY ONLY — delete this block in a base instance ---
+# --- ADVANCED OVERLAY ONLY — delete this block in a base instance;
+# --- in an advanced instance keep the commands and delete these two fence lines ---
 # Full data/content pipeline
 bash run_data_pipeline.sh
 # Source-development pipeline (single REQ)

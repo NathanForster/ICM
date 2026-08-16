@@ -35,7 +35,37 @@ Then ask the user if they would like the **advanced version** of the ICM. Explai
 - a `CLAUDE.md` context proxy enforcing a mandatory implementation → validation sequence per requirement
 - stricter global constraints (`ICM.md`) covering output formatting, code standards, and hallucination guardrails
 
-If yes, merge the `advanced-options/` content with the user's selected template.
+If yes, **merge** the `advanced-options/` content with the user's selected template. The
+overlay is additive; the base template stays authoritative for structure. Concretely:
+
+- **Root `ICM.md`:** keep the base file; append the overlay's four sections as
+  **"Part B — Pipeline execution constraints"** (the overlay's own header block says
+  this). Replace the overlay's illustrative stack line with the project's real stack.
+- **Root `CONTEXT.md`:** keep the base file's routing tables, Deliverable library, and
+  Version Control sections — the overlay's §5 (routing) and §6 (version control) are
+  **discarded**, since their rows are examples that may name folders the project does
+  not have. Merge the overlay's §1–4 (objective, pipeline topology, stage matrix, gate
+  policy) in as a "Pipeline blueprint" part, with stage names replaced by the project's
+  real stages.
+- **Scripts and config at the instance root:** `.icm-runner.py`, `run_data_pipeline.sh`,
+  `run_source_dev.sh`, `check_requirements.py`, `CLAUDE.md`, plus `DOCSET.json` if the
+  PDF set is selected. Copy them verbatim, then: edit `run_data_pipeline.sh`'s per-stage
+  blocks (`STAGE1=`/`INPUT2=`… — it ships with `01-ingest…04-load`) to the project's
+  real stage folders, and
+  point `check_requirements.py`'s default paths at the project's register and brief
+  folders if they differ from the sys-eng layout. Root scripts and config get **one
+  combined row** in the Non-workspace table ("pipeline runner + config — not routed;
+  invoked by workspaces"), not a row each.
+- **`state/README.md`:** the base template's version speaks about the template; tailor
+  it to say what this *instance* keeps in `state/`.
+- **Pipeline stage folders** the overlay's blueprint refers to (`01-…/`, `02-…/`) must
+  actually exist with a `CONTEXT.md` each — under the workspace that owns them (e.g.
+  `data-pipeline/workflows/`), never loose at the root.
+
+The overlay is designed around the sys-eng template but works with the generic one:
+the source-development pair (`03-implementation`/`04-validation`) simply lives under
+whichever workspace does implementation work (`production/` in the generic template),
+and `run_source_dev.sh`'s workspace argument is edited to match.
 
 Separately from the advanced choice, the interview (Step 2, Documentation Requirements)
 asks **which documents the project will produce**, offering the companion
@@ -49,9 +79,10 @@ below.
 Read, from the **selected template** (no instance exists yet):
 - `ICM.md`
 - top-level `CONTEXT.md`
-- every active workspace's `CONTEXT.md` and `AGENT.md` (and its `README.md`)
+- every active workspace's `ICM.md`, `CONTEXT.md` and `AGENT.md` (and its `README.md`)
 - every registry workspace's `README.md` and any starter artifact beside it
-- the advanced overlay's `README.md` (to describe it accurately when asking)
+- the advanced overlay's `README.md` (to describe it accurately when asking); if the
+  user chooses it, also its `ICM.md`, `CONTEXT.md`, and `CLAUDE.md` before merging
 
 ---
 
@@ -185,11 +216,18 @@ metrics, state) include:
 
 The top-level `CONTEXT.md` routing table must list every workspace that exists —
 and only workspaces that exist. Routing and folder structure must never disagree.
-Folders that are *not* workspaces (`src/`, `docs/`, `docs/output/`, `reference/`) go in a
-separate "Non-workspace folders" table beneath the routing table, each with its owning workspace
-— so every top-level folder is accounted for without pretending it is routable.
+Both base templates ship the same three-part shape — **Active workspaces** table,
+**Registry workspaces** table, **Non-workspace folders and files** table — keep it.
+Folders that are *not* workspaces (`src/`, `docs/`, `docs/output/`, `reference/`,
+`templates/`, and any root scripts/config) go in the Non-workspace table, each with its
+owning workspace — so every top-level item is accounted for without pretending it is
+routable.
 
-**Base vs. advanced instances.** The sys-eng template's files mention the advanced
+**Version control.** Do not run `git init` or make commits on the user's behalf unless
+asked; do recommend initialising the repository as the first thing after generation, and
+generate `.gitignore` regardless (see Required Deliverable).
+
+**Base vs. advanced instances (sys-eng template).** The sys-eng template's files mention the advanced
 overlay's scripts (`.icm-runner.py`, `check_requirements.py`, `run_*.sh`) in two forms:
 (a) **one deletable block** in `state/HANDOFF.md` §4, fenced with `ADVANCED OVERLAY ONLY`
 comments; (b) **inline "(advanced) / (base)" alternative pairs** everywhere else
@@ -200,24 +238,39 @@ inline pair keep only the base alternative — rewrite the sentence so it no lon
 mentions the script, or states plainly "there is no `<script>` in this project". Then
 grep the instance for `icm-runner|check_requirements|run_source_dev` and confirm every
 surviving hit is a *negation*, not an instruction. When generating an **advanced**
-instance, keep both branches.
+instance, keep the advanced alternative in each pair (drop the "(base)" clause) and keep
+the HANDOFF §4 block with its fence comments removed. The generic template has no such
+pairs — its files do not mention the overlay's scripts at all, so an advanced generic
+instance must have the pipeline commands *added* to `state/HANDOFF.md` §4 and to the
+implementing workspace's `CONTEXT.md`.
 
 ---
 
 ## Generate Supporting Systems
 
 When applicable, generate:
-- standards/  (with at least one concrete standard file if the interview supplied
-  coding/naming/review rules — the README says "one standard per file")
-- templates/
-- state/
-- decisions/
-- governance/  (with an approval-matrix file if the interview supplied approval or
-  escalation paths)
-- docs/ (authored deliverables — see below)
+- state/ — **both templates**; always present (HANDOFF.md lives here)
+- docs/ (authored deliverables — see below) — both templates, when any deliverable
+  is selected
 - reference/ (third-party material the project depends on — see below; a sibling of
-  docs/, never inside it)
-- src/ and src/tests/ (placeholder READMEs, since workspace files reference them)
+  docs/, never inside it) — both templates, when selected
+- templates/ — **optional**, either template; only when the project will have its
+  own reusable document skeletons (a content project's post template, a sys-eng
+  project's brief template). Do not create it empty.
+- standards/  (with at least one concrete standard file if the interview supplied
+  coding/naming/review rules — the README says "one standard per file") — **sys-eng
+  template**; for a generic project, put coding/style rules in the owning workspace's
+  `ICM.md` instead unless the user wants a registry
+- decisions/ — **sys-eng template** (it is one of its registry workspaces); a generic
+  project records decisions in `state/HANDOFF.md` unless it asks for a log
+- governance/  (with an approval-matrix file if the interview supplied approval or
+  escalation paths) — **sys-eng template**
+- src/ and src/tests/ (placeholder READMEs, since workspace files reference them) —
+  **sys-eng template**, or a generic project whose `production/` workspace writes code
+
+"Sys-eng template" items are not forbidden in a generic instance — add them if the
+interview calls for them — but do not create them by reflex; the generic template's
+`CONTEXT.md` does not reference them and the instance's routing table must not either.
 
 ---
 
@@ -292,17 +345,30 @@ project uses it.
   obtained"** if not — with bracketed filename/revision cells for the user to fill.
   `reference/` is tracked — do not add it to `.gitignore`. Add it to the Non-workspace
   folders table, owned by `documentation/` (sys-eng) or `writing-room/` (generic).
-- Route deliverable work. In the sys-eng template: `documentation/` owns manuals,
+- **Adapting library templates to the project.** The library's templates were written
+  against a systems-engineering workflow — the backlog assumes REQ IDs, code, and live
+  testing; the enhancement intake assumes a UAT track; the runbook assumes an operations
+  team. A project (especially a generic-template one) **may change their structure** —
+  drop or rename columns, replace REQ-ID fields with the project's own identifiers,
+  collapse sections it has no use for — as long as it keeps the library's conventions:
+  the file name from the index, placement in `docs/` or `docs/status/`, the title block,
+  and a row in `docs/DELIVERABLES.md`. Record the adaptation in that row's notes so the
+  next agent knows the document deliberately differs from its governing template. Do not
+  hunt for the sys-eng workflow's concepts in a project that lacks them.
+- Route deliverable work. In the **sys-eng** template: `documentation/` owns manuals,
   summaries, DID documents, runbooks, and the enhancement-request intake;
   `requirements/` owns the register, its RTVM counterpart, and the **backlog**;
   `verification-validation/` owns UAT findings, the status table, and live-testing
   records; `decisions/` owns the deviations register (it is a decision log). In the
-  generic template, `writing-room/` owns them all unless the user says otherwise. Add the
-  chosen documents to the owning workspace's `CONTEXT.md` — or its `README.md` for
-  registry workspaces, which have no CONTEXT.md — so routing stays deterministic. A
-  folder whose files have different owners (`docs/status/` — backlog to `requirements/`,
-  live-testing to `verification-validation/`) gets one Non-workspace-folders row per
-  owner, or one row naming both; either is fine as long as every file is accounted for.
+  **generic** template, `writing-room/` owns them all by default; a natural split when
+  the project wants one is `production/` for the backlog and any runbook, `community/`
+  for release notes and enhancement intake (they face users), `writing-room/` for
+  everything else. Add the chosen documents to the owning workspace's `CONTEXT.md` — or
+  its `README.md` for registry workspaces, which have no CONTEXT.md — so routing stays
+  deterministic. A folder whose files have different owners (`docs/status/` — backlog to
+  `requirements/`, live-testing to `verification-validation/`) gets one
+  Non-workspace-folders row per owner, or one row naming both; either is fine as long as
+  every file is accounted for.
 
 ---
 
@@ -311,9 +377,11 @@ project uses it.
 The final deliverable is a fully generated folder structure with populated example
 markdown files.
 
-**Always create `.gitignore`** from the template's canonical Version Control table (in
-the top-level `CONTEXT.md`), even when no deliverable snippet applies — the template's
-own rules and the "`reference/` is tracked" statement presuppose one exists.
+**Always create `.gitignore`** from the Version Control table in the selected template's
+top-level `CONTEXT.md` (both templates carry the same table — it is the canonical list
+for both), even when no deliverable snippet applies — the template's own rules and the
+"`reference/` is tracked" statement presuppose one exists. Add stack-specific lines the
+interview implies (static-site output for a content project, `target/` for Rust, etc.).
 
 **Record the template versions:** add a `## Template provenance` section at the end of
 the instance's top-level `CONTEXT.md` with the ICM templates repository commit

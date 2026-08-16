@@ -4,9 +4,13 @@ This document establishes the macro-workflow, execution ordering, and data hando
 contracts for the active project workspace. All execution scripts and processing
 layers look to this blueprint to navigate the repository.
 
-> **Customise this file when creating a new project instance.**
-> Replace every `[PLACEHOLDER]` with project-specific content.
-> Delete this instruction block when the file is complete.
+> **This is an overlay, not a replacement.** The base template's `CONTEXT.md` (its
+> routing tables, Deliverable library, and Version Control sections) is authoritative.
+> When applying the overlay, **merge** sections 1–4 below into the base file as a
+> "Pipeline blueprint" part (adapting stage names to the project's real pipeline) and
+> **discard** sections 5–6 — the base file already has them and its rows are the real ones.
+> Replace every `[PLACEHOLDER]` with project-specific content and delete this block
+> when the merge is complete.
 
 ---
 
@@ -33,19 +37,23 @@ transformation behaviour.
   ┌───────────────────┐
   │  01-<stage-name>/ │  ──►  output_01-<stage-name>.md
   └────────┬──────────┘
-           │  (promoted by run_pipeline.sh)
+           │  (promoted by run_data_pipeline.sh)
            ▼
   ┌───────────────────┐
   │  02-<stage-name>/ │  ──►  output_02-<stage-name>.md
   └────────┬──────────┘
-           │  (promoted by run_pipeline.sh)
+           │  (promoted by run_data_pipeline.sh)
            ▼
   ┌───────────────────┐
   │  03-<stage-name>/ │  ──►  output_03-<stage-name>.md  (final deliverable)
   └───────────────────┘
 ```
 
-Replace the stage names above with the actual stages for this project.
+Replace the stage names above with the actual stages for this project. Note that
+`run_data_pipeline.sh` ships with the stage sequence `01-ingest → 02-transform →
+03-validate → 04-load` hard-coded as per-stage blocks (`STAGE1=…`, `INPUT2=…`) — edit
+those blocks to match whatever you draw here, or the runner and the blueprint will
+disagree.
 
 ---
 
@@ -78,7 +86,9 @@ Replace the stage names above with the actual stages for this project.
 
 This pipeline enforces a **strict gate pattern** between stages.
 
-1. When a stage completes, `run_pipeline.sh` pauses automatically.
+1. When a stage completes, the pipeline runner (`run_data_pipeline.sh` for a
+   stage sequence, `run_source_dev.sh <REQ-ID>` for the source-development pair)
+   pauses automatically.
 2. A human operator inspects the output file in that stage's folder.
 3. The operator may edit the output directly to correct errors or adjust scope.
 4. On confirmation, the runner promotes the (possibly edited) output to become
@@ -89,8 +99,9 @@ This pipeline enforces a **strict gate pattern** between stages.
 
 ## 5. WORKSPACE ROUTING
 
-> Example rows — replace with the actual workspaces of this project instance.
-> Every row must correspond to a real folder, and every workspace folder must have a row.
+> **Discard on merge.** The base template's `CONTEXT.md` already holds the project's
+> routing tables; these rows are illustrative only and reference folders that may not
+> exist in your project. Do not copy them across.
 
 | Workspace | Route When |
 |-----------|-----------|
@@ -104,6 +115,7 @@ This pipeline enforces a **strict gate pattern** between stages.
 
 ## 6. VERSION CONTROL
 
-See the **Version Control** section of the base template's top-level `CONTEXT.md` for
-the canonical list of files that must be gitignored. Never commit credentials; the only
-committed credential file should be the example template (`.env.example`).
+> **Discard on merge.** The base template's `CONTEXT.md` **Version Control** section is
+> canonical. The overlay adds nothing here except a reminder that pipeline `output_*.md`
+> and `input_*.md` artifacts **are** committed (they are the audit trail), while any
+> `.env` used for `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` is not.

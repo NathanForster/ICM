@@ -24,7 +24,7 @@ Treat the rules inside `ICM.md` as hard operational boundaries for your active s
 When implementing any **Baselined** requirement, you MUST follow this sequence.
 
 > **Do not write code until step 2 is complete.**
-> **Do not commit until step 4 is complete.**
+> **Do not commit until step 5 (stage 04) is complete.**
 
 1. **Write an implementation brief** in `source-development/workflows/03-implementation/`
    named `input_<REQ-ID>_implementation.md`.

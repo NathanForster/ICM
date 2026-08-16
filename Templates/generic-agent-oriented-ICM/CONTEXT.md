@@ -1,43 +1,73 @@
 # Global Routing Context
 
-## writing-room/
-Use for:
-- tutorials
-- documentation
-- blog posts
-- content creation
+This file is the **single source of truth** for what folders exist in this project and
+when work is routed to each. Every folder in the routing tables must exist; every
+workspace folder must have a row. Always load a workspace's local `CONTEXT.md` before
+executing inside it.
 
-## production/
-Use for:
-- implementation
-- software builds
-- engineering work
-- technical execution
+> **Customise on instantiation.** The three workspaces below are the template's starting
+> point, not a mandate — rename, remove, or add rows to match the project. Delete this
+> block when the file is complete.
 
-## community/
-Use for:
-- outreach
-- marketing
-- customer communication
-- social content
+---
 
-## state/
-Support directory (not a routed workspace) — persistent operational memory.
-Read `state/HANDOFF.md` at the start of every session; update it at the end.
+## Active workspaces
 
-## docs/ (when present)
-Project deliverables — manuals, UAT records, trackers, summaries — generated from
-definitions in the companion **SE-Deliverables** library (`.ai/SE-Deliverables/`,
-https://github.com/NathanForster/SE-Deliverables). Owned by `writing-room/` unless the
-project's `docs/DELIVERABLES.md` says otherwise. Never copy library files into this
-project; generate documents from them.
+Work is routed here. Each has its own `ICM.md` (local constraints), `CONTEXT.md`
+(local routing / stage map), and `AGENT.md` (persona).
 
-## reference/ (when present)
-Third-party material the project depends on but does not author — vendor manuals,
-protocol specs, standards, reference datasets. A sibling of `docs/`, tracked, with a
-provenance manifest in its README. `docs/` is authored; `reference/` is not.
+| Workspace | Route When |
+|-----------|-----------|
+| `writing-room/` | Tutorials, documentation, blog posts, long-form content creation |
+| `production/` | Implementation, software builds, engineering work, technical execution |
+| `community/` | Outreach, marketing, customer communication, social content |
 
-Always load local CONTEXT.md files before execution.
+## Registry workspaces
+
+Folders that hold project memory or generated output. They are **not** routed for
+execution — an agent reads or writes them as directed by an active workspace's contract,
+but never "works inside" them.
+
+| Folder | Purpose | Owned by |
+|--------|---------|----------|
+| `state/` | Persistent operational memory. Read `state/HANDOFF.md` at the start of every session; update it at the end. | Whoever ends the session |
+| `docs/` *(when present)* | Authored project deliverables — see **Deliverable library** below | See `docs/DELIVERABLES.md` |
+| `reference/` *(when present)* | Third-party material the project depends on but does not author — see **Deliverable library** below | `writing-room/` (manifest upkeep) |
+
+## Non-workspace folders and files
+
+| Item | What it is | Route work here? |
+|------|-----------|------------------|
+| `templates/` *(optional)* | Reusable skeletons for this project's own documents | No — a workspace uses them |
+| Root `ICM.md`, `CONTEXT.md`, `README.md`, `.gitignore` | Project-level framework files | No — edited only when the project's shape changes |
+
+---
+
+## Deliverable library
+
+Deliverables — manuals, UAT records, trackers, summaries, runbooks, and (when the
+project needs them) DoD-format specifications — are generated from definitions in the
+companion **SE-Deliverables** library, which lives beside this project's parent `.ai/`
+folder (`.ai/SE-Deliverables/`, https://github.com/NathanForster/SE-Deliverables).
+
+- **Never copy library files into this project.** Generate documents from them into
+  `docs/`, using the library's naming convention `docs/<ACRONYM>-<PROJECT>.md` for
+  formal deliverables and `docs/status/` for living trackers.
+- **`docs/DELIVERABLES.md`** is the project's map: which deliverables were selected,
+  their file names, and which workspace owns each. It exists whenever `docs/` exists.
+- **Ownership default:** `writing-room/` owns `docs/` unless `docs/DELIVERABLES.md`
+  says otherwise. Split ownership (e.g. `production/` owns a runbook) is fine — record
+  it in the map.
+- **Adapting library templates.** The library's templates were written against a
+  systems-engineering workflow (requirements IDs, source code, formal UAT). A generic
+  project may adapt their structure — columns, fields, section names — to its own
+  workflow, provided the file naming, `docs/` placement, and `DELIVERABLES.md`
+  bookkeeping conventions are preserved. Record any structural adaptation in the map.
+- **`reference/`** is the sibling of `docs/` for material the project *uses* but does
+  *not* author — vendor manuals, protocol specs, standards, reference datasets. It is
+  tracked (large binaries may be linked instead), and its `README.md` is a provenance
+  manifest (source, version, date obtained, status). `docs/` is authored; `reference/`
+  is not.
 
 ---
 
@@ -47,9 +77,10 @@ Always load local CONTEXT.md files before execution.
 |----------|---------|
 | Credentials | `.env`, `*.key`, `*.pem`, `secrets.*` |
 | Runtime config | `settings.json`, user data files modified at runtime |
-| Build output | `dist/`, `build/`, `__pycache__/`, `*.pyc` |
+| Build / generated output | `dist/`, `build/`, `__pycache__/`, `*.pyc`, `docs/output/` (generated PDFs), static-site output (`_site/`, `public/`, `.next/`) |
 | Virtual environments | `.venv/`, `node_modules/`, `.conda/` |
 | IDE / local state | `*.local.json`, `.DS_Store`, `*.user`, `Thumbs.db` |
+| Editor backups | `*.bak`, `*~`, `*.swp` |
 
 The **only** committed credential file should be the example template (e.g. `.env.example`
 with placeholder values). Never commit real keys, tokens, or passwords.
