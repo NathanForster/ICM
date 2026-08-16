@@ -44,6 +44,11 @@ https://github.com/NathanForster/SE-Deliverables). Generated deliverables go in 
 project's `docs/` (living trackers in `docs/status/`); the map of which library item
 governs which file is `docs/DELIVERABLES.md`. Never copy library files into this project.
 
+Third-party material the project depends on but does not author — vendor manuals,
+protocol specs, standards, reference datasets — goes in `reference/` (a sibling of
+`docs/`, tracked, with a provenance manifest in its README). `docs/` is authored;
+`reference/` is not.
+
 Ownership: `documentation/` — manuals, summaries, DID documents, runbooks,
 enhancement-request intake · `requirements/` — register, RTVM, backlog ·
 `verification-validation/` — UAT findings, status table, live-testing records ·

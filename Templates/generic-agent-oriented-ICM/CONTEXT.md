@@ -32,6 +32,11 @@ https://github.com/NathanForster/SE-Deliverables). Owned by `writing-room/` unle
 project's `docs/DELIVERABLES.md` says otherwise. Never copy library files into this
 project; generate documents from them.
 
+## reference/ (when present)
+Third-party material the project depends on but does not author — vendor manuals,
+protocol specs, standards, reference datasets. A sibling of `docs/`, tracked, with a
+provenance manifest in its README. `docs/` is authored; `reference/` is not.
+
 Always load local CONTEXT.md files before execution.
 
 ---

@@ -106,6 +106,10 @@ for what to do with the answer.
 - **Operations:** runbooks (risk-tiered)
 - **Consolidated PDF documentation set** (DOCSET.json-driven build; implies a gitignored
   `docs/output/` with its self-explaining README)
+- **Third-party reference folder** (`reference/`, sibling of `docs/`) — for vendor
+  equipment manuals, protocol specs, standards the system implements, and reference
+  datasets. Offer this whenever the Technical Stack answers named hardware interfaces,
+  external protocols, or a regulatory regime, even if the user did not think to ask.
 - release notes / other (free-form)
 
 ### Compliance and Governance
@@ -171,8 +175,8 @@ metrics, state) include:
 
 The top-level `CONTEXT.md` routing table must list every workspace that exists —
 and only workspaces that exist. Routing and folder structure must never disagree.
-Folders that are *not* workspaces (`src/`, `docs/`, `docs/output/`) go in a separate
-"Non-workspace folders" table beneath the routing table, each with its owning workspace
+Folders that are *not* workspaces (`src/`, `docs/`, `docs/output/`, `reference/`) go in a
+separate "Non-workspace folders" table beneath the routing table, each with its owning workspace
 — so every top-level folder is accounted for without pretending it is routable.
 
 **Base vs. advanced instances.** The sys-eng template's files mention the advanced
@@ -194,7 +198,9 @@ When applicable, generate:
 - decisions/
 - governance/  (with an approval-matrix file if the interview supplied approval or
   escalation paths)
-- docs/ (deliverables — see below)
+- docs/ (authored deliverables — see below)
+- reference/ (third-party material the project depends on — see below; a sibling of
+  docs/, never inside it)
 - src/ and src/tests/ (placeholder READMEs, since workspace files reference them)
 
 ---
@@ -247,6 +253,13 @@ project uses it.
   to the instance root as `DOCSET.json` populated with the selected documents; create
   `docs/output/README.md` from `SE-Deliverables/templates/docs-output/README.md`; append
   the `.gitignore` snippet.
+- If the third-party reference folder was selected: create `reference/README.md` at the
+  **instance root, beside `docs/`** (not inside it) from
+  `SE-Deliverables/templates/reference/README.md`, with only the sub-folders the project
+  needs (`vendor/`, `standards/`, `data/`); seed the manifest with any hardware, protocol,
+  or standard the interview named, as "Not yet obtained" rows. `reference/` is tracked —
+  do not add it to `.gitignore`. Add it to the Non-workspace folders table, owned by
+  `documentation/` (sys-eng) or `writing-room/` (generic).
 - Route deliverable work. In the sys-eng template: `documentation/` owns manuals,
   summaries, DID documents, runbooks, and the enhancement-request intake;
   `requirements/` owns the register, its RTVM counterpart, and the **backlog**;
