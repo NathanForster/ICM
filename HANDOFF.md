@@ -5,6 +5,7 @@ completes or new follow-up items emerge.
 
 **Remote:** https://github.com/NathanForster/ICM.git
 **Branch:** master
+**Last updated:** 2026-08-16 (commit `56eddab` and this update)
 
 ---
 
@@ -37,10 +38,21 @@ this one under `.ai/`. See [README.md](README.md).
   broken shell continuations that pass 2's fix had introduced; the script is now proven
   end-to-end with a stub runner.
 - **Runner:** `.icm-runner.py` assembles context by ancestor walk to the *topmost*
-  `ICM.md` (root Layer 0/1 → workspace Layer 1a → stage Layer 2) and takes
-  `--input`/`--artifact` for per-requirement runs. A pre-2026-08 instance that copied
-  the runner should re-copy it (and `run_source_dev.sh`, `check_requirements.py`,
-  `CLAUDE.md`) — the old version silently dropped Layers 0/1 in nested layouts.
+  `ICM.md` in a contiguous run, bounded by `.git` (root Layer 0/1 → workspace Layer 1a →
+  stage Layer 2) and takes `--input`/`--artifact` for per-requirement runs; a named
+  `--input` is always Layer 4. `run_source_dev.sh` matches briefs on the exact REQ ID
+  (`_` after the ID). A pre-2026-08 instance that copied the runner should re-copy it
+  (and `run_source_dev.sh`, `check_requirements.py`, `CLAUDE.md`) — the old version
+  silently dropped Layers 0/1 in nested layouts.
+- **`.gitignore` before the first commit:** the instructions, both templates' Version
+  Control sections, the Templates and top-level READMEs, and the deck (Getting Started
+  step 5; Organizational Memory code block) all give the same sequence — `git init` →
+  review the generated `.gitignore` against the stack → `git status` → first commit —
+  and the generated root README carries it as a "First commit" block.
+- **Deck:** `Interpretable_Context_Methodology_(ICM).pptx` + PDF regenerated 2026-08-16
+  (LibreOffice headless; edited via zipfile — the pptx skill's `soffice.py` wrapper is
+  Unix-only and `markitdown`/`pdftoppm` are absent on this machine; use PyMuPDF to
+  render pages for visual QA).
 
 ---
 
@@ -51,4 +63,8 @@ this one under `.ai/`. See [README.md](README.md).
   substantive change to the instructions, a template, or the overlay scripts.
 - `Examples/temp-logger/` was generated before the 2026-08 instruction changes; it is
   still valid but does not exercise the generic template, the overlay merge, or the
-  `reference/` folder.
+  `reference/` folder. A second worked example (generic template, or advanced with the
+  PDF set) would close that gap.
+- Deck slide 6 still says the advanced overlay adds "a DoD DID library" — the DIDs moved
+  to SE-Deliverables in 2026-07; the wording is a mild anachronism worth fixing on the
+  next deck pass (slide 12's *Looking ahead* bullet says the same).
