@@ -261,8 +261,11 @@ the overlay) — it is the *project's* canonical list once instantiated.
 **Always create a root `README.md`** (neither template ships one, but both routing
 tables list it): what the project is in a paragraph, then pointers — start with
 `state/HANDOFF.md`, routing is in `CONTEXT.md`, constraints in `ICM.md`, deliverables in
-`docs/DELIVERABLES.md` (if present) — and, until the repository is initialised, the
-recommendation to `git init` first.
+`docs/DELIVERABLES.md` (if present) — and, until the repository is initialised, a
+"First commit" block giving the sequence below verbatim: `git init` → **review
+`.gitignore`** (it is generated, but confirm it covers this project's credentials, build
+output, and virtual environments) → `git status` to confirm nothing sensitive is staged →
+first commit.
 
 **Where interview answers land when the template has no dedicated folder.** In the
 generic template: approval flows and escalation paths → root `ICM.md` (a short
@@ -282,9 +285,15 @@ instance for every folder name that was *not* created.
 **Version control.** Do not run `git init` or make commits on the user's behalf unless
 asked; do recommend initialising the repository as the first thing after generation —
 and, in an advanced instance, *before the first stage run* (the runner bounds its
-context walk at `.git`) — and generate `.gitignore` regardless (see Required
-Deliverable). HANDOFF fields that presume a commit (`Last commit: [SHA]`, the *Recent
-work* table's SHA row) read `none — repository not yet initialised`.
+context walk at `.git`). **Strongly recommend that `.gitignore` is assembled and
+reviewed before the first commit** — a credential, virtual environment, or build
+artifact committed once stays in the history even after it is ignored, and scrubbing
+history is far more work than a two-minute review. The generated `.gitignore` (see
+Required Deliverable) is the starting point, not the end: the user should check it
+against the actual stack (venv location, IDE, build system, static-site output) and run
+`git status` before the first `git add`. Say this in the root README and in the
+hand-over message. HANDOFF fields that presume a commit (`Last commit: [SHA]`, the
+*Recent work* table's SHA row) read `none — repository not yet initialised`.
 
 **Base vs. advanced instances (sys-eng template).** The sys-eng template's files mention the advanced
 overlay's scripts (`.icm-runner.py`, `check_requirements.py`, `run_*.sh`) in two forms:

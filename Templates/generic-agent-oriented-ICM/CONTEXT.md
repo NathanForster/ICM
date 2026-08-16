@@ -98,3 +98,9 @@ companion **SE-Deliverables** library, which lives beside this project under the
 
 The **only** committed credential file should be the example template (e.g. `.env.example`
 with placeholder values). Never commit real keys, tokens, or passwords.
+
+**Assemble and review `.gitignore` before the first commit.** The generated file is
+built from this table; before `git add` on a fresh repository, check it against the
+project's actual stack (venv location, build output, IDE files, static-site output) and
+run `git status` to confirm nothing sensitive is staged. A file committed once remains in
+the history after it is ignored — reviewing first is cheap; scrubbing history is not.

@@ -217,7 +217,13 @@ Treat ICM repositories as:
 - workflow engines
 - AI-operable execution environments
 
-Version control is strongly recommended.
+Version control is strongly recommended — and **assemble and review `.gitignore`
+before the first commit**. A generated instance ships one (built from the template's
+Version Control table), but check it against your actual stack before you `git add`:
+where your virtual environment lives, what your build system emits, what your IDE
+drops, whether a static-site generator writes `site/` or `_site/`. Anything committed
+once stays in the history even after it is ignored later; a two-minute review beats
+rewriting history.
 
 When creating a remote repository, create it completely empty — no README, no .gitignore. This avoids merge conflicts on the first push.
 
@@ -225,6 +231,8 @@ Example:
 
 ```bash
 git init
+# review .gitignore against your stack — credentials, venvs, build output, IDE files
+git status                      # confirm nothing sensitive is about to be staged
 git add .
 git commit -m "Initial ICM project instance"
 git remote add origin https://github.com/your-org/your-project.git

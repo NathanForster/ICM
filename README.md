@@ -79,7 +79,9 @@ clone it alongside ICM.
    stages, documentation and compliance needs.
 4. **Review the generated instance** — confirm routing is unambiguous and ownership is explicit.
 5. **Initialize version control** in the new project repo to begin accumulating organizational
-   memory.
+   memory — and **review the generated `.gitignore` before the first commit** (credentials,
+   virtual environments, build output, IDE files). Anything committed once stays in the
+   history even after it is ignored.
 
 ## Provenance and status
 
